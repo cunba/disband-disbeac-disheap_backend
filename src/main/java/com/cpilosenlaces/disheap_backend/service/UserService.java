@@ -15,7 +15,7 @@ public interface UserService {
 
     UserModel save(UserModel user);
 
-    void updatePassword(UserModel user);
+    void updatePassword(UUID id, String password);
 
     void deleteUser(UserModel user);
 

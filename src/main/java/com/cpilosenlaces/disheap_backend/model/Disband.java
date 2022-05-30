@@ -1,10 +1,8 @@
 package com.cpilosenlaces.disheap_backend.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,13 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,13 +39,4 @@ public class Disband {
     @ManyToOne
     @JoinColumn(name = "user_id_disbands_fk")
     private UserModel user;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "disband")
-    @JsonBackReference(value = "disband-measures")
-    @Parameter(hidden = true)
-    private List<Measure> measures;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "disband")
-    @JsonBackReference(value = "disband-alarms")
-    @Parameter(hidden = true)
-    private List<Alarm> alarms;
 }

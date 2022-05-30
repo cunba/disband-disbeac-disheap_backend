@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(UserModel user) {
-        ur.save(user);
+    public void updatePassword(UUID id, String password) {
+        ur.updatePassword(password, id);
     }
 
     @Override

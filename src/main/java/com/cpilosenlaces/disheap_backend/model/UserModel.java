@@ -2,10 +2,8 @@ package com.cpilosenlaces.disheap_backend.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,16 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -54,15 +48,6 @@ public class UserModel {
     private LocalDateTime registerDate;
     @Column
     private String role;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonBackReference(value = "user-disbeacs")
-    @Parameter(hidden = true)
-    private List<Disbeac> disbeacs;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonBackReference(value = "user-disbands")
-    @Parameter(hidden = true)
-    private List<Disband> disbands;
 
     @Bean
     public static PasswordEncoder encoder() {

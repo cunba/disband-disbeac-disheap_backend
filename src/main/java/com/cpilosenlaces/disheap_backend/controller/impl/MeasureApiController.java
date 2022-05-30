@@ -19,7 +19,6 @@ import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
 import com.cpilosenlaces.disheap_backend.service.DisbandService;
 import com.cpilosenlaces.disheap_backend.service.MeasureService;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,14 +79,42 @@ public class MeasureApiController implements MeasureApi {
             throw new NotFoundException("Disband with ID " + measureDTO.getDisbandId() + " does not exists.");
         }
 
+        Measure measure = new Measure();
+
         Timestamp timestamp = new Timestamp(measureDTO.getDate());
         LocalDateTime dateLocal = timestamp.toLocalDateTime();
 
-        ModelMapper mapper = new ModelMapper();
-        Measure measure = mapper.map(measureDTO, Measure.class);
         measure.setId(UUID.randomUUID());
         measure.setDate(dateLocal);
         measure.setDisband(disband);
+
+        if (measureDTO.getTemperature() != -1000) {
+            measure.setTemperature(measureDTO.getTemperature());
+        }
+        if (measureDTO.getHumidity() != -1000) {
+            measure.setHumidity(measureDTO.getHumidity());
+        }
+        if (measureDTO.getPressure() != -1000) {
+            measure.setPressure(measureDTO.getPressure());
+        }
+        if (measureDTO.getAmbientNoise() != -1000) {
+            measure.setAmbientNoise(measureDTO.getAmbientNoise());
+        }
+        if (measureDTO.getLightning() != -1000) {
+            measure.setLightning(measureDTO.getLightning());
+        }
+        if (measureDTO.getRedLightning() != -1000) {
+            measure.setRedLightning(measureDTO.getRedLightning());
+        }
+        if (measureDTO.getGreenLightning() != -1000) {
+            measure.setGreenLightning(measureDTO.getGreenLightning());
+        }
+        if (measureDTO.getBlueLightning() != -1000) {
+            measure.setBlueLightning(measureDTO.getBlueLightning());
+        }
+        if (measureDTO.getHeartRate() != -1000) {
+            measure.setHeartRate(measureDTO.getHeartRate());
+        }
 
         return new ResponseEntity<>(as.save(measure), HttpStatus.CREATED);
     }

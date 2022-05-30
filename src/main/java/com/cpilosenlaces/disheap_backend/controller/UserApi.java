@@ -8,8 +8,11 @@ import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.UserModel;
 import com.cpilosenlaces.disheap_backend.model.dto.PasswordChangeDTO;
+import com.cpilosenlaces.disheap_backend.model.dto.UpdateUserDTO;
 import com.cpilosenlaces.disheap_backend.model.dto.UserDTO;
 
+import org.mapstruct.BeanMapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -80,6 +83,7 @@ public interface UserApi {
             @Parameter(description = "User object", required = false) @RequestBody UserDTO userDTO)
             throws BadRequestException;
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Secured({ "ROLE_ADMIN", "ROLE_USER" })
     @Operation(summary = "Update user", operationId = "updateUser")
     @ApiResponses(value = {
@@ -94,7 +98,7 @@ public interface UserApi {
     @SecurityRequirement(name = "bearer")
     public ResponseEntity<String> update(
             @Parameter(description = "User id", required = true) @PathVariable UUID id,
-            @Parameter(description = "User object") @RequestBody UserDTO userDTO)
+            @Parameter(description = "User object") @RequestBody UpdateUserDTO userDTO)
             throws NotFoundException, BadRequestException;
 
     @Secured({ "ROLE_ADMIN", "ROLE_USER" })
@@ -112,7 +116,7 @@ public interface UserApi {
     public ResponseEntity<String> updatePassword(
             @Parameter(description = "User id", required = true) @PathVariable UUID id,
             @Parameter(description = "User object", required = true) @RequestBody PasswordChangeDTO password)
-            throws NotFoundException;
+            throws NotFoundException, BadRequestException;
 
     @Secured({ "ROLE_ADMIN", "ROLE_USER" })
     @Operation(summary = "Delete user", operationId = "deleteUser")

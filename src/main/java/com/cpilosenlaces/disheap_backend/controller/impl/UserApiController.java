@@ -16,6 +16,7 @@ import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.UserModel;
 import com.cpilosenlaces.disheap_backend.model.dto.PasswordChangeDTO;
+import com.cpilosenlaces.disheap_backend.model.dto.UpdateUserDTO;
 import com.cpilosenlaces.disheap_backend.model.dto.UserDTO;
 import com.cpilosenlaces.disheap_backend.service.UserService;
 
@@ -74,55 +75,57 @@ public class UserApiController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<String> update(UUID id, UserDTO userDTO) throws NotFoundException, BadRequestException {
+    public ResponseEntity<String> update(UUID id, UpdateUserDTO userDTO) throws NotFoundException, BadRequestException {
         UserModel user = null;
         try {
             user = us.findById(id);
+            System.out.println(user);
         } catch (NotFoundException nfe) {
             throw new NotFoundException("User with ID " + id + " does not exists.");
         }
 
-        if (!user.getEmail().equals(null) && !user.getEmail().equals(userDTO.getEmail())) {
+        if (!user.getEmail().equals("string") && !user.getEmail().equals(userDTO.getEmail())) {
             List<UserModel> users = us.findByEmail(userDTO.getEmail());
             if (!users.isEmpty()) {
                 throw new BadRequestException("The user " + userDTO.getEmail() + " already exists.");
             }
         }
 
-        if(!userDTO.getIsDisorder().equals(null)) {
-            System.out.println("is dsorder es null");
-            user.setIsDisorder(userDTO.getIsDisorder());
-        }
-        if(!userDTO.getBirthday().equals(null)) {
+        if (!userDTO.getBirthday().equals("string")) {
             System.out.println("birthday es null");
             user.setBirthday(LocalDate.parse(userDTO.getBirthday(), formatter));
         }
-        if(!userDTO.getEmail().equals(null)) {
+        if (!userDTO.getEmail().equals("string")) {
             System.out.println("email es null");
             user.setEmail(userDTO.getEmail());
         }
-        if(!userDTO.getName().equals(null)) {
-            System.out.println("name es null");
+        if (!userDTO.getName().equals("string")) {
+            System.out.println("name no es nulo");
             user.setName(userDTO.getName());
         }
-        if(!userDTO.getRole().equals(null)) {
-            System.out.println("role es null");
-            user.setRole(userDTO.getRole());
-        }
-        if(!userDTO.getSurname().equals(null)) {
+        if (!userDTO.getSurname().equals("string")) {
             System.out.println("surname es null");
             user.setSurname(userDTO.getSurname());
         }
-        
-        // us.save(user);
-        
+
+        us.save(user);
+
         return new ResponseEntity<>("User updated.", HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<String> updatePassword(UUID id, PasswordChangeDTO password) throws NotFoundException {
-        // TODO Auto-generated method stub
-        return null;
+    public ResponseEntity<String> updatePassword(UUID id, PasswordChangeDTO password)
+            throws NotFoundException, BadRequestException {
+
+        UserModel user = us.findById(id);
+        if (!(UserModel.encoder().matches(password.getPassword(), user.getPassword()))) {
+            System.out.println("son diferentes");
+            String passwordEncrypted = UserModel.encoder().encode(password.getPassword());
+            us.updatePassword(id, passwordEncrypted);
+            return new ResponseEntity<>("Password updated.", HttpStatus.OK);
+        } else {
+            throw new BadRequestException("La contraseña debe ser distinta.");
+        }
     }
 
     @Override
@@ -167,7 +170,7 @@ public class UserApiController implements UserApi {
         Map<String, String> error = new HashMap<>();
         error.put("error", "Bad request exception");
         ErrorResponse errorResponse = new ErrorResponse("400", error, br.getMessage());
-        
+
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -176,7 +179,7 @@ public class UserApiController implements UserApi {
         Map<String, String> error = new HashMap<>();
         error.put("error", "Bad request expcetion");
         ErrorResponse errorResponse = new ErrorResponse("400", error, br.getMessage());
-        
+
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -185,7 +188,7 @@ public class UserApiController implements UserApi {
         Map<String, String> error = new HashMap<>();
         error.put("error", "Not Found Exception");
         ErrorResponse errorResponse = new ErrorResponse("404", error, nfe.getMessage());
-        
+
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
@@ -197,7 +200,6 @@ public class UserApiController implements UserApi {
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });
-        
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
@@ -210,7 +212,6 @@ public class UserApiController implements UserApi {
             String message = error.getMessage();
             errors.put(fieldName, message);
         });
-        
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
@@ -220,7 +221,7 @@ public class UserApiController implements UserApi {
         Map<String, String> error = new HashMap<>();
         error.put("error", "Internal server error");
         ErrorResponse errorResponse = new ErrorResponse("500", error, exception.getMessage());
-        
+
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
