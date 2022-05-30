@@ -82,19 +82,39 @@ public class UserApiController implements UserApi {
             throw new NotFoundException("User with ID " + id + " does not exists.");
         }
 
-        if (!user.getEmail().equals(userDTO.getEmail())) {
+        if (!user.getEmail().equals(null) && !user.getEmail().equals(userDTO.getEmail())) {
             List<UserModel> users = us.findByEmail(userDTO.getEmail());
             if (!users.isEmpty()) {
                 throw new BadRequestException("The user " + userDTO.getEmail() + " already exists.");
             }
         }
 
-        ModelMapper mapper = new ModelMapper();
-        user = mapper.map(userDTO, UserModel.class);
-        user.setBirthday(LocalDate.parse(userDTO.getBirthday(), formatter));
-        user.setRole(userDTO.getRole().toUpperCase());
-        user.setPassword(UserModel.encoder().encode(userDTO.getPassword()));
-        us.save(user);
+        if(!userDTO.getIsDisorder().equals(null)) {
+            System.out.println("is dsorder es null");
+            user.setIsDisorder(userDTO.getIsDisorder());
+        }
+        if(!userDTO.getBirthday().equals(null)) {
+            System.out.println("birthday es null");
+            user.setBirthday(LocalDate.parse(userDTO.getBirthday(), formatter));
+        }
+        if(!userDTO.getEmail().equals(null)) {
+            System.out.println("email es null");
+            user.setEmail(userDTO.getEmail());
+        }
+        if(!userDTO.getName().equals(null)) {
+            System.out.println("name es null");
+            user.setName(userDTO.getName());
+        }
+        if(!userDTO.getRole().equals(null)) {
+            System.out.println("role es null");
+            user.setRole(userDTO.getRole());
+        }
+        if(!userDTO.getSurname().equals(null)) {
+            System.out.println("surname es null");
+            user.setSurname(userDTO.getSurname());
+        }
+        
+        // us.save(user);
         
         return new ResponseEntity<>("User updated.", HttpStatus.OK);
     }

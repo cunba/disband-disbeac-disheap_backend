@@ -35,7 +35,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Secured({ "ROLE_ADIMN", "ROLE_USER" })
 @Tag(name = "Alarms", description = "Alarm API")
 @Validated
 @RestController

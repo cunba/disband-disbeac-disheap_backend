@@ -134,7 +134,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.5</version>
 				<configuration>
-					<imageName>springdocker</imageName>
+					<imageName>disband_disbeac_disheap_backend</imageName>
 					<baseImage>java</baseImage>
 					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
 					<resources>

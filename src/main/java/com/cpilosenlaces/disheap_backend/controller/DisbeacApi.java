@@ -35,7 +35,6 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 
-@Secured({ "ROLE_ADIMN", "ROLE_USER" })
 @Tag(name = "Disbeacs", description = "Disbeac API")
 @Validated
 @RestController

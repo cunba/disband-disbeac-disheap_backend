@@ -40,7 +40,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
 public interface UserApi {
 
-    @Secured({ "ROLE_ADIMN", "ROLE_USER" })
+    @Secured({ "ROLE_ADMIN", "ROLE_USER" })
     @Operation(summary = "Get user by ID", operationId = "getUserById")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -55,7 +55,7 @@ public interface UserApi {
             @Parameter(description = "User ID", required = true) @PathVariable("id") UUID id)
             throws NotFoundException;
 
-    @Secured({ "ROLE_ADIMN", "ROLE_USER" })
+    @Secured({ "ROLE_ADMIN", "ROLE_USER" })
     @Operation(summary = "Get user by email", operationId = "getUserByEmail")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = UserModel.class))),
@@ -80,7 +80,7 @@ public interface UserApi {
             @Parameter(description = "User object", required = false) @RequestBody UserDTO userDTO)
             throws BadRequestException;
 
-    @Secured({ "ROLE_ADIMN", "ROLE_USER" })
+    @Secured({ "ROLE_ADMIN", "ROLE_USER" })
     @Operation(summary = "Update user", operationId = "updateUser")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -94,10 +94,10 @@ public interface UserApi {
     @SecurityRequirement(name = "bearer")
     public ResponseEntity<String> update(
             @Parameter(description = "User id", required = true) @PathVariable UUID id,
-            @Parameter(description = "User object", required = true, content = @Content(schema = @Schema(implementation = UserDTO.class))) @RequestBody UserDTO user)
+            @Parameter(description = "User object") @RequestBody UserDTO userDTO)
             throws NotFoundException, BadRequestException;
 
-    @Secured({ "ROLE_ADIMN", "ROLE_USER" })
+    @Secured({ "ROLE_ADMIN", "ROLE_USER" })
     @Operation(summary = "Update user's password", operationId = "updateUserPassword")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -114,7 +114,7 @@ public interface UserApi {
             @Parameter(description = "User object", required = true) @RequestBody PasswordChangeDTO password)
             throws NotFoundException;
 
-    @Secured({ "ROLE_ADIMN", "ROLE_USER" })
+    @Secured({ "ROLE_ADMIN", "ROLE_USER" })
     @Operation(summary = "Delete user", operationId = "deleteUser")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -129,7 +129,7 @@ public interface UserApi {
             @Parameter(description = "User id", required = true) @PathVariable UUID id)
             throws NotFoundException;
 
-    @Secured({ "ROLE_ADIMN" })
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Delete all users", operationId = "deleteAllUser")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
