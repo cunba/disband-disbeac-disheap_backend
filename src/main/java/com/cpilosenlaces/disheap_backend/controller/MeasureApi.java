@@ -106,7 +106,7 @@ public interface MeasureApi {
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	@DeleteMapping("/disbands/{id}")
+	@DeleteMapping("/disbands/{disbandId}")
 	public ResponseEntity<List<Measure>> deleteByDisbandId(
 			@Parameter(description = "Disband id", required = true) @PathVariable UUID disbandId)
 			throws NotFoundException;

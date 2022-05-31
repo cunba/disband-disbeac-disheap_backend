@@ -43,6 +43,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirements
 @SecurityRequirement(name = "bearer")
 public interface AlarmApi {
+
     @Operation(summary = "Get alarm by ID", operationId = "getById")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -125,7 +126,7 @@ public interface AlarmApi {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @DeleteMapping("/disbands/{id}")
+    @DeleteMapping("/disbands/{disbandId}")
     public ResponseEntity<List<Alarm>> deleteByDisbandId(
             @Parameter(description = "Disband id", required = true) @PathVariable UUID disbandId);
 

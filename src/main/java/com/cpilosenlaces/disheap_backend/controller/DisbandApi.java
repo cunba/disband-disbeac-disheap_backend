@@ -70,7 +70,7 @@ public interface DisbandApi {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping("/mac/{mac}")
+    @GetMapping("/macs/{mac}")
     public ResponseEntity<List<Disband>> getByMac(
             @Parameter(description = "Mac", required = true) @PathVariable String mac);
 
@@ -118,7 +118,7 @@ public interface DisbandApi {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users/{userId}")
     public ResponseEntity<List<Disband>> deleteByUserId(
             @Parameter(description = "User id", required = true) @PathVariable UUID userId)
             throws NotFoundException;
