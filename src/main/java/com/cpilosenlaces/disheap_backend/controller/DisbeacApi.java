@@ -34,7 +34,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
 @Tag(name = "Disbeacs", description = "Disbeac API")
 @Validated
 @RestController
@@ -65,6 +64,16 @@ public interface DisbeacApi {
     public ResponseEntity<List<Disbeac>> getByUserId(
             @Parameter(description = "User ID", required = true) @PathVariable UUID userId)
             throws NotFoundException;
+
+    @Operation(summary = "Get disbeac by mac", operationId = "getDisbeacsByMac")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("/mac/{mac}")
+    public ResponseEntity<List<Disbeac>> getByMac(
+            @Parameter(description = "Mac", required = true) @PathVariable String mac);
 
     @Operation(summary = "Save disbeac", operationId = "savedisbeac")
     @ApiResponses(value = {

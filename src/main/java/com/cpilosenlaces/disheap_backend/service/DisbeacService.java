@@ -9,6 +9,8 @@ import com.cpilosenlaces.disheap_backend.model.Disbeac;
 public interface DisbeacService {
     List<Disbeac> findByUserId(UUID userId);
 
+    List<Disbeac> findByMac(String mac);
+
     Disbeac findById(UUID id) throws NotFoundException;
 
     List<Disbeac> findAll();

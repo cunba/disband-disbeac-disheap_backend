@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DisbandDTO {
+    @NotNull
+    private String mac;
     private String name;
     @NotNull
     private String model;

@@ -50,6 +50,11 @@ public class DisbeacApiController implements DisbeacApi {
     }
 
     @Override
+    public ResponseEntity<List<Disbeac>> getByMac(String mac) {
+        return new ResponseEntity<>(ds.findByMac(mac), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<Disbeac> save(DisbeacDTO disbeacDTO) throws NotFoundException {
         UserModel user = null;
         try {

@@ -23,6 +23,11 @@ public class DisbandServiceImpl implements DisbandService {
     }
 
     @Override
+    public List<Disband> findByMac(String mac) {
+        return dr.findByMac(mac);
+    }
+
+    @Override
     public Disband findById(UUID id) throws NotFoundException {
         return dr.findById(id).orElseThrow(NotFoundException::new);
     }

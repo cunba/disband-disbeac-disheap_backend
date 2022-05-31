@@ -23,6 +23,11 @@ public class DisbeacServiceImpl implements DisbeacService {
     }
 
     @Override
+    public List<Disbeac> findByMac(String mac) {
+        return dr.findByMac(mac);
+    }
+
+    @Override
     public Disbeac findById(UUID id) throws NotFoundException {
         return dr.findById(id).orElseThrow(NotFoundException::new);
     }

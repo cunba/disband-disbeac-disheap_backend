@@ -28,6 +28,8 @@ public class Disband {
     @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
     @Column
+    private String mac;
+    @Column
     private String name;
     @Column
     private String model;

@@ -12,5 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface DisbandRepository extends CrudRepository<Disband, UUID> {
     List<Disband> findByUserId(UUID userId);
 
+    List<Disband> findByMac(String mac);
+
     List<Disband> findAll();
 }

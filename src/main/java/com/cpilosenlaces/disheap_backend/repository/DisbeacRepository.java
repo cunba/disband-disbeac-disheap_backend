@@ -12,5 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface DisbeacRepository extends CrudRepository<Disbeac, UUID> {
     List<Disbeac> findByUserId(UUID userId);
 
+    List<Disbeac> findByMac(String mac);
+
     List<Disbeac> findAll();
 }

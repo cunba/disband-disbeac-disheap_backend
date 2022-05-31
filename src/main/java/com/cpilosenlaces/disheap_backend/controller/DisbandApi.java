@@ -64,6 +64,16 @@ public interface DisbandApi {
     public ResponseEntity<List<Disband>> getByUserId(
             @Parameter(description = "User ID", required = true) @PathVariable UUID userId);
 
+    @Operation(summary = "Get disbands by mac", operationId = "getDisbandsByMac")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("/mac/{mac}")
+    public ResponseEntity<List<Disband>> getByMac(
+            @Parameter(description = "Mac", required = true) @PathVariable String mac);
+
     @Operation(summary = "Save disband", operationId = "savedisband")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "CREATED"),

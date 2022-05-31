@@ -50,6 +50,11 @@ public class DisbandApiController implements DisbandApi {
     }
 
     @Override
+    public ResponseEntity<List<Disband>> getByMac(String mac) {
+        return new ResponseEntity<>(ds.findByMac(mac), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<Disband> save(DisbandDTO disbandDTO) throws NotFoundException {
         UserModel user = null;
         try {
