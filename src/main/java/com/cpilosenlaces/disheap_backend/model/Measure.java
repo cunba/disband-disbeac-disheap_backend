@@ -27,23 +27,23 @@ public class Measure {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
-    @Column
+    @Column(nullable = true)
     private float temperature;
-    @Column
+    @Column(nullable = true)
     private float humidity;
-    @Column
+    @Column(nullable = true)
     private float pressure;
     @Column(name = "ambient_noise")
     private float ambientNoise;
-    @Column
+    @Column(nullable = true)
     private float lightning;
-    @Column(name = "red_lightning")
+    @Column(name = "red_lightning", nullable = true)
     private float redLightning;
-    @Column(name = "green_lightning")
+    @Column(name = "green_lightning", nullable = true)
     private float greenLightning;
-    @Column(name = "blue_lightning")
+    @Column(name = "blue_lightning", nullable = true)
     private float blueLightning;
-    @Column(name = "heart_rate")
+    @Column(name = "heart_rate", nullable = true)
     private float heartRate;
     @Column
     private LocalDateTime date;

@@ -43,6 +43,11 @@ public class DisbandServiceImpl implements DisbandService {
     }
 
     @Override
+    public void updateUserId(UUID userId, UUID id) {
+        dr.updateUserId(userId, id);;
+    }
+
+    @Override
     public void delete(Disband disband) {
         dr.delete(disband);
     }

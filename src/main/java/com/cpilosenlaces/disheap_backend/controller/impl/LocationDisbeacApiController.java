@@ -9,16 +9,15 @@ import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
-import com.cpilosenlaces.disheap_backend.controller.AlarmApi;
+import com.cpilosenlaces.disheap_backend.controller.LocationDisbeacApi;
 import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
 import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
-import com.cpilosenlaces.disheap_backend.model.Alarm;
-import com.cpilosenlaces.disheap_backend.model.Disband;
-import com.cpilosenlaces.disheap_backend.model.dto.AlarmDTO;
-import com.cpilosenlaces.disheap_backend.model.util.HandledResponse;
-import com.cpilosenlaces.disheap_backend.service.AlarmService;
-import com.cpilosenlaces.disheap_backend.service.DisbandService;
+import com.cpilosenlaces.disheap_backend.model.Disbeac;
+import com.cpilosenlaces.disheap_backend.model.LocationDisbeac;
+import com.cpilosenlaces.disheap_backend.model.dto.LocationDisbeacDTO;
+import com.cpilosenlaces.disheap_backend.service.DisbeacService;
+import com.cpilosenlaces.disheap_backend.service.LocationDisbeacService;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,30 +29,21 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Controller
-public class AlarmApiController implements AlarmApi {
+public class LocationDisbeacApiController implements LocationDisbeacApi {
 
     @Autowired
-    private AlarmService as;
+    private LocationDisbeacService lds;
     @Autowired
-    private DisbandService ds;
+    private DisbeacService ds;
 
     @Override
-    public ResponseEntity<Alarm> getById(UUID id) throws NotFoundException {
-        try {
-            return new ResponseEntity<>(as.findById(id), HttpStatus.OK);
-        } catch (NotFoundException nfe) {
-            throw new NotFoundException("Alarm with ID " + id + " does not exists.");
-        }
+    public ResponseEntity<List<LocationDisbeac>> getLast1ByDisbeacId(UUID disbeacId) {
+        return new ResponseEntity<>(lds.findLast1ByDisbeacId(disbeacId), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Alarm>> getByDisbandId(UUID disbandId) {
-        return new ResponseEntity<>(as.findByDisbandId(disbandId), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<Alarm>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
-            UUID disbandId) {
+    public ResponseEntity<List<LocationDisbeac>> getByDateBetweenAndDisbeacId(long minDate, long maxDate,
+            UUID disbeacId) {
 
         Timestamp minTimestamp = new Timestamp(minDate);
         LocalDateTime minDateLocal = minTimestamp.toLocalDateTime();
@@ -66,82 +56,83 @@ public class AlarmApiController implements AlarmApi {
             minDateLocal = maxDateLocal;
             maxDateLocal = changerDate;
         }
-
-        return new ResponseEntity<>(as.findByDateBetweenAndDisbandId(minDateLocal, maxDateLocal, disbandId),
+        return new ResponseEntity<>(lds.findByDateBetweenAndDisbeacId(minDateLocal, maxDateLocal, disbeacId),
                 HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Alarm> save(AlarmDTO alarmDTO) throws NotFoundException {
+    public ResponseEntity<List<LocationDisbeac>> getByDisbeacId(UUID disbeacId) {
+        return new ResponseEntity<>(lds.findByDisbeacId(disbeacId), HttpStatus.OK);
+    }
 
-        Disband disband = null;
+    @Override
+    public ResponseEntity<LocationDisbeac> getById(UUID id) throws NotFoundException {
         try {
-            disband = ds.findById(alarmDTO.getDisbandId());
+            return new ResponseEntity<>(lds.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Disband with ID " + alarmDTO.getDisbandId() + " does not exists.");
+            throw new NotFoundException("Location with ID " + id + " does not exists.");
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<LocationDisbeac>> getAll() {
+        return new ResponseEntity<>(lds.findAll(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<LocationDisbeac> save(LocationDisbeacDTO locationDisbeacDTO) throws NotFoundException {
+        Disbeac disbeac = null;
+        try {
+            disbeac = ds.findById(locationDisbeacDTO.getDisbeacId());
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("Disbeac with ID " + locationDisbeacDTO.getDisbeacId() + " does not exists.");
         }
 
-        Timestamp timestamp = new Timestamp(alarmDTO.getDate());
+        Timestamp timestamp = new Timestamp(locationDisbeacDTO.getDate());
         LocalDateTime dateLocal = timestamp.toLocalDateTime();
 
         ModelMapper mapper = new ModelMapper();
-        Alarm alarm = mapper.map(alarmDTO, Alarm.class);
-        alarm.setId(UUID.randomUUID());
-        alarm.setDate(dateLocal);
-        alarm.setDisband(disband);
+        LocationDisbeac locationDisbeac = mapper.map(locationDisbeacDTO, LocationDisbeac.class);
+        locationDisbeac.setId(UUID.randomUUID());
+        locationDisbeac.setDate(dateLocal);
+        locationDisbeac.setDisbeac(disbeac);
 
-        return new ResponseEntity<>(as.save(alarm), HttpStatus.CREATED);
+        return new ResponseEntity<>(lds.save(locationDisbeac), HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<HandledResponse> update(UUID id, AlarmDTO alarmDTO) throws NotFoundException {
-        Alarm alarm = null;
+    public ResponseEntity<LocationDisbeac> delete(UUID id) throws NotFoundException {
         try {
-            alarm = as.findById(id);
+            LocationDisbeac locationDisbeac = lds.findById(id);
+            lds.delete(locationDisbeac);
+            return new ResponseEntity<>(locationDisbeac, HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Alarm with ID " + id + " does not exists.");
+            throw new NotFoundException("Location with ID " + id + " does not exists.");
         }
-
-        Timestamp timestamp = new Timestamp(alarmDTO.getDate());
-        LocalDateTime dateLocal = timestamp.toLocalDateTime();
-
-        ModelMapper mapper = new ModelMapper();
-        alarm = mapper.map(alarmDTO, Alarm.class);
-        alarm.setDate(dateLocal);
-
-        as.save(alarm);
-
-        return new ResponseEntity<>(new HandledResponse("Alarm updated", 1), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Alarm> delete(UUID id) throws NotFoundException {
+    public ResponseEntity<List<LocationDisbeac>> deleteByDisbeacId(UUID disbeacId) throws NotFoundException {
         try {
-            Alarm alarm = as.findById(id);
-            as.delete(alarm);
+            ds.findById(disbeacId);
+            List<LocationDisbeac> listLocations = lds.findByDisbeacId(disbeacId);
 
-            return new ResponseEntity<>(alarm, HttpStatus.OK);
+            for (LocationDisbeac location : listLocations) {
+                lds.delete(location);
+            }
+
+            return new ResponseEntity<>(listLocations, HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Alrm with ID " + id + " does not exists.");
+            throw new NotFoundException("Disbeac with ID " + disbeacId + " does not exists.");
         }
+
     }
 
     @Override
-    public ResponseEntity<List<Alarm>> deleteByDisbandId(UUID disbandId) {
-        List<Alarm> alarms = as.findByDisbandId(disbandId);
-
-        for (Alarm alarm : alarms) {
-            as.delete(alarm);
-        }
-
-        return new ResponseEntity<>(alarms, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<Alarm>> deleteAll() {
-        List<Alarm> alarms = as.findAll();
-        as.deleteAll();
-        return new ResponseEntity<>(alarms, HttpStatus.OK);
+    public ResponseEntity<List<LocationDisbeac>> deleteAll() {
+        List<LocationDisbeac> listLocations = lds.findAll();
+        lds.deleteAll();
+        return new ResponseEntity<>(listLocations, HttpStatus.OK);
     }
 
     @ExceptionHandler(BadRequestException.class)

@@ -17,6 +17,8 @@ public interface DisbeacService {
 
     Disbeac save(Disbeac disbeac);
 
+    void updateUserId(UUID userId, UUID id);
+
     void delete(Disbeac disbeac);
 
     void deleteAll();

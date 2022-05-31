@@ -17,6 +17,8 @@ public interface DisbandService {
 
     Disband save(Disband disband);
 
+    void updateUserId(UUID userId, UUID id);
+
     void delete(Disband disband);
 
     void deleteAll();

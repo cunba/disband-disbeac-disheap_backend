@@ -18,6 +18,7 @@ import com.cpilosenlaces.disheap_backend.model.UserModel;
 import com.cpilosenlaces.disheap_backend.model.dto.PasswordChangeDTO;
 import com.cpilosenlaces.disheap_backend.model.dto.UpdateUserDTO;
 import com.cpilosenlaces.disheap_backend.model.dto.UserDTO;
+import com.cpilosenlaces.disheap_backend.model.util.HandledResponse;
 import com.cpilosenlaces.disheap_backend.service.UserService;
 
 import org.modelmapper.ModelMapper;
@@ -75,7 +76,8 @@ public class UserApiController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<String> update(UUID id, UpdateUserDTO userDTO) throws NotFoundException, BadRequestException {
+    public ResponseEntity<HandledResponse> update(UUID id, UpdateUserDTO userDTO)
+            throws NotFoundException, BadRequestException {
         UserModel user = null;
         try {
             user = us.findById(id);
@@ -110,11 +112,11 @@ public class UserApiController implements UserApi {
 
         us.save(user);
 
-        return new ResponseEntity<>("User updated.", HttpStatus.OK);
+        return new ResponseEntity<>(new HandledResponse("User updated", 1), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<String> updatePassword(UUID id, PasswordChangeDTO password)
+    public ResponseEntity<HandledResponse> updatePassword(UUID id, PasswordChangeDTO password)
             throws NotFoundException, BadRequestException {
 
         UserModel user = us.findById(id);
@@ -122,7 +124,7 @@ public class UserApiController implements UserApi {
             System.out.println("son diferentes");
             String passwordEncrypted = UserModel.encoder().encode(password.getPassword());
             us.updatePassword(id, passwordEncrypted);
-            return new ResponseEntity<>("Password updated.", HttpStatus.OK);
+            return new ResponseEntity<>(new HandledResponse("Password updated", 1), HttpStatus.OK);
         } else {
             throw new BadRequestException("La contraseña debe ser distinta.");
         }

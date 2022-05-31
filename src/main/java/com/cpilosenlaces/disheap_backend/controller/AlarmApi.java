@@ -8,6 +8,7 @@ import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.Alarm;
 import com.cpilosenlaces.disheap_backend.model.dto.AlarmDTO;
+import com.cpilosenlaces.disheap_backend.model.util.HandledResponse;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -103,7 +104,7 @@ public interface AlarmApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(
+    public ResponseEntity<HandledResponse> update(
             @Parameter(description = "Alarm id", required = true) @PathVariable UUID id,
             @Parameter(description = "Alarm object", required = true) @RequestBody AlarmDTO alarmDTO)
             throws NotFoundException;

@@ -15,6 +15,7 @@ import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.Disbeac;
 import com.cpilosenlaces.disheap_backend.model.UserModel;
 import com.cpilosenlaces.disheap_backend.model.dto.DisbeacDTO;
+import com.cpilosenlaces.disheap_backend.model.util.HandledResponse;
 import com.cpilosenlaces.disheap_backend.service.DisbeacService;
 import com.cpilosenlaces.disheap_backend.service.UserService;
 
@@ -73,7 +74,7 @@ public class DisbeacApiController implements DisbeacApi {
     }
 
     @Override
-    public ResponseEntity<String> update(UUID id, DisbeacDTO disbeacDTO) throws NotFoundException {
+    public ResponseEntity<HandledResponse> update(UUID id, DisbeacDTO disbeacDTO) throws NotFoundException {
         Disbeac disbeac = null;
         try {
             disbeac = ds.findById(id);
@@ -95,24 +96,26 @@ public class DisbeacApiController implements DisbeacApi {
 
         ds.save(disbeac);
 
-        return new ResponseEntity<>("Disbeac updated.", HttpStatus.OK);
+        return new ResponseEntity<>(new HandledResponse("Disbeac updated", 1), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<String> updateLocation(UUID id, float latitude, float longitude) throws NotFoundException {
+    public ResponseEntity<HandledResponse> updateUserId(UUID id, UUID userId) throws NotFoundException {
         try {
-            Disbeac disbeac = ds.findById(id);
-
-            disbeac.setLatitude(latitude);
-            disbeac.setLongitude(longitude);
-            disbeac.setDate(LocalDateTime.now());
-
-            ds.save(disbeac);
-
-            return new ResponseEntity<>("Location updated.", HttpStatus.OK);
+            ds.findById(id);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Disbeac with ID " + id + " does not exists.");
+            throw new NotFoundException("Disbeac with ID " + id + " does not exists");
         }
+
+        try {
+            us.findById(id);
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("User with ID " + id + " does not exists");
+        }
+
+        ds.updateUserId(userId, id);
+
+        return new ResponseEntity<>(new HandledResponse("Disbeac's user updated", 1), HttpStatus.OK);
     }
 
     @Override

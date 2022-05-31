@@ -10,6 +10,7 @@ import com.cpilosenlaces.disheap_backend.model.UserModel;
 import com.cpilosenlaces.disheap_backend.model.dto.PasswordChangeDTO;
 import com.cpilosenlaces.disheap_backend.model.dto.UpdateUserDTO;
 import com.cpilosenlaces.disheap_backend.model.dto.UserDTO;
+import com.cpilosenlaces.disheap_backend.model.util.HandledResponse;
 
 import org.mapstruct.BeanMapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -96,7 +98,7 @@ public interface UserApi {
     @PutMapping("/{id}")
     @SecurityRequirements
     @SecurityRequirement(name = "bearer")
-    public ResponseEntity<String> update(
+    public ResponseEntity<HandledResponse> update(
             @Parameter(description = "User id", required = true) @PathVariable UUID id,
             @Parameter(description = "User object") @RequestBody UpdateUserDTO userDTO)
             throws NotFoundException, BadRequestException;
@@ -110,10 +112,10 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "Icon not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PutMapping("/{id}/password")
+    @PatchMapping("/{id}/password")
     @SecurityRequirements
     @SecurityRequirement(name = "bearer")
-    public ResponseEntity<String> updatePassword(
+    public ResponseEntity<HandledResponse> updatePassword(
             @Parameter(description = "User id", required = true) @PathVariable UUID id,
             @Parameter(description = "User object", required = true) @RequestBody PasswordChangeDTO password)
             throws NotFoundException, BadRequestException;

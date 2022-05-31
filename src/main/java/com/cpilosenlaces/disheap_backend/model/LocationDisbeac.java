@@ -18,25 +18,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity(name = "disbeacs")
+@Entity(name = "locations_disbeacs")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Disbeac {
+public class LocationDisbeac {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
     @Column
-    private String mac;
+    private float latitude;
     @Column
-    private String model;
-    @Column
-    private String version;
+    private float longitude;
     @Column
     private LocalDateTime date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id_disbeacs_fk")
-    private UserModel user;
+    @JoinColumn(name = "disbeac_id_location_fk")
+    private Disbeac disbeac;
 }

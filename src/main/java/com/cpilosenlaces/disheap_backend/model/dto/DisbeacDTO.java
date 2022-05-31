@@ -14,15 +14,10 @@ import lombok.NoArgsConstructor;
 public class DisbeacDTO {
     @NotNull
     private String mac;
-    private String name;
     @NotNull
     private String model;
     @NotNull
     private String version;
-    @NotNull
-    private float latitude;
-    @NotNull
-    private float longitude;
     @NotNull
     private UUID userId;
 }

@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
 import com.cpilosenlaces.disheap_backend.exception.UnauthorizeException;
 
 import org.springframework.security.core.Authentication;
@@ -33,7 +32,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Authentication auth = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-        } catch (UnauthorizeException | BadRequestException ex) {
+        } catch (UnauthorizeException ex) {
             SecurityContextHolder.clearContext();
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
         }

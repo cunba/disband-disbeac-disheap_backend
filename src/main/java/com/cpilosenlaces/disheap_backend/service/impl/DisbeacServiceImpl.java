@@ -43,6 +43,11 @@ public class DisbeacServiceImpl implements DisbeacService {
     }
 
     @Override
+    public void updateUserId(UUID userId, UUID id) {
+        dr.updateUserId(userId, id);;
+    }
+
+    @Override
     public void delete(Disbeac disbeac) {
         dr.delete(disbeac);
     }

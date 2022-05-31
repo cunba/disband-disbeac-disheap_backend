@@ -15,6 +15,7 @@ import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.Disband;
 import com.cpilosenlaces.disheap_backend.model.UserModel;
 import com.cpilosenlaces.disheap_backend.model.dto.DisbandDTO;
+import com.cpilosenlaces.disheap_backend.model.util.HandledResponse;
 import com.cpilosenlaces.disheap_backend.service.DisbandService;
 import com.cpilosenlaces.disheap_backend.service.UserService;
 
@@ -73,7 +74,7 @@ public class DisbandApiController implements DisbandApi {
     }
 
     @Override
-    public ResponseEntity<String> update(UUID id, DisbandDTO disbandDTO) throws NotFoundException {
+    public ResponseEntity<HandledResponse> update(UUID id, DisbandDTO disbandDTO) throws NotFoundException {
         Disband disband = null;
         try {
             disband = ds.findById(id);
@@ -95,7 +96,26 @@ public class DisbandApiController implements DisbandApi {
 
         ds.save(disband);
 
-        return new ResponseEntity<>("Disband updated.", HttpStatus.OK);
+        return new ResponseEntity<>(new HandledResponse("Disband updated", 1), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<HandledResponse> updateUserId(UUID id, UUID userId) throws NotFoundException {
+        try {
+            ds.findById(id);
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("Disband with ID " + id + " does not exists");
+        }
+
+        try {
+            us.findById(id);
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("User with ID " + id + " does not exists");
+        }
+
+        ds.updateUserId(userId, id);
+
+        return new ResponseEntity<>(new HandledResponse("Disband's user updated", 1), HttpStatus.OK);
     }
 
     @Override

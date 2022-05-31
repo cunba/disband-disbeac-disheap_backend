@@ -2,27 +2,21 @@ package com.cpilosenlaces.disheap_backend.security;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
-import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
+import com.cpilosenlaces.disheap_backend.exception.UnauthorizeException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -83,19 +77,17 @@ public class JwtTokenProvider {
     }
 
     public boolean validateToken(String token, HttpServletRequest httpServletRequest)
-            throws BadRequestException {
+            throws UnauthorizeException {
 
         try {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;
         } catch (IllegalArgumentException e) {
-            throw new BadRequestException("Expired or invalid JWT token");
+            throw new UnauthorizeException("Expired or invalid JWT token");
         } catch (ExpiredJwtException ex) {
             log.error("JWT Token expired.", ex.getCause());
-            httpServletRequest.setAttribute("expired", ex.getMessage());
+            throw new UnauthorizeException("JWT Token Expired");
         }
-
-        return false;
     }
 
 }

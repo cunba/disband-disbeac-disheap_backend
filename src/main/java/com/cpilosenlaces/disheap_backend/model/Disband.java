@@ -30,8 +30,6 @@ public class Disband {
     @Column
     private String mac;
     @Column
-    private String name;
-    @Column
     private String model;
     @Column(name = "firmware_version")
     private String firmwareVersion;

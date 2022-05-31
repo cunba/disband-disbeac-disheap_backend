@@ -7,6 +7,7 @@ import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.Disbeac;
 import com.cpilosenlaces.disheap_backend.model.dto.DisbeacDTO;
+import com.cpilosenlaces.disheap_backend.model.util.HandledResponse;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,12 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -97,23 +98,22 @@ public interface DisbeacApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(
+    public ResponseEntity<HandledResponse> update(
             @Parameter(description = "Disbeac id", required = true) @PathVariable UUID id,
             @Parameter(description = "Disbeac object", required = true) @RequestBody DisbeacDTO user)
             throws NotFoundException;
 
-    @Operation(summary = "Update disbeac location", operationId = "updateDisbeacLocation")
+    @Operation(summary = "Update user ID", operationId = "updateUserId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Disbeac not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PutMapping("/{id}/location")
-    public ResponseEntity<String> updateLocation(
-            @Parameter(description = "Disbeac id", required = true) @PathVariable UUID id,
-            @Parameter(description = "Latitude", required = true) @RequestParam(name = "latitude") float latitude,
-            @Parameter(description = "Longitude", required = true) @RequestParam(name = "longitude") float longitude)
+    @PatchMapping("/{id}/user/{userId}")
+    public ResponseEntity<HandledResponse> updateUserId(
+            @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID id,
+            @Parameter(description = "New user ID", required = true) @PathVariable UUID userId)
             throws NotFoundException;
 
     @Operation(summary = "Delete disbeac", operationId = "deleteDisbeac")

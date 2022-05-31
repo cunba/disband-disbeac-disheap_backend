@@ -31,7 +31,7 @@ public class Alarm {
     private LocalDateTime date;
     @Column(name = "is_repetition")
     private Boolean isRepetition;
-    @Column(name = "repetition_week_days")
+    @Column(name = "repetition_week_days", nullable = true)
     private String repetitionWeekDays;
 
     @ManyToOne
