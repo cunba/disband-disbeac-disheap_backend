@@ -71,7 +71,8 @@ public interface LocationDisbeacApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/disbeacId/{disbeacId}")
-    ResponseEntity<List<LocationDisbeac>> getByDisbeacId(UUID disbeacId);
+    ResponseEntity<List<LocationDisbeac>> getByDisbeacId(
+        @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID disbeacId);
 
     @Operation(summary = "Get location disbeac by ID", operationId = "getLocationById")
     @ApiResponses(value = {

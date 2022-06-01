@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +10,7 @@ public interface LocationDisbeacService {
     
     List<LocationDisbeac> findLast1ByDisbeacId(UUID disbeacId);
 
-    List<LocationDisbeac> findByDateBetweenAndDisbeacId(LocalDateTime minDate, LocalDateTime maxDate, UUID disbeacId);
+    List<LocationDisbeac> findByDateBetweenAndDisbeacId(long minDate, long maxDate, UUID disbeacId);
 
     List<LocationDisbeac> findByDisbeacId(UUID disbeacId);
 

@@ -1,7 +1,5 @@
 package com.cpilosenlaces.disheap_backend.controller.impl;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,18 +43,13 @@ public class LocationDisbeacApiController implements LocationDisbeacApi {
     public ResponseEntity<List<LocationDisbeac>> getByDateBetweenAndDisbeacId(long minDate, long maxDate,
             UUID disbeacId) {
 
-        Timestamp minTimestamp = new Timestamp(minDate);
-        LocalDateTime minDateLocal = minTimestamp.toLocalDateTime();
-        Timestamp maxTimestamp = new Timestamp(maxDate);
-        LocalDateTime maxDateLocal = maxTimestamp.toLocalDateTime();
-
-        LocalDateTime changerDate = LocalDateTime.now();
-        if (minDateLocal.isAfter(maxDateLocal)) {
-            changerDate = minDateLocal;
-            minDateLocal = maxDateLocal;
-            maxDateLocal = changerDate;
+        long changerDate = System.currentTimeMillis();
+        if (minDate > maxDate) {
+            changerDate = minDate;
+            minDate = maxDate;
+            maxDate = changerDate;
         }
-        return new ResponseEntity<>(lds.findByDateBetweenAndDisbeacId(minDateLocal, maxDateLocal, disbeacId),
+        return new ResponseEntity<>(lds.findByDateBetweenAndDisbeacId(minDate, maxDate, disbeacId),
                 HttpStatus.OK);
     }
 
@@ -88,13 +81,10 @@ public class LocationDisbeacApiController implements LocationDisbeacApi {
             throw new NotFoundException("Disbeac with ID " + locationDisbeacDTO.getDisbeacId() + " does not exists.");
         }
 
-        Timestamp timestamp = new Timestamp(locationDisbeacDTO.getDate());
-        LocalDateTime dateLocal = timestamp.toLocalDateTime();
-
         ModelMapper mapper = new ModelMapper();
         LocationDisbeac locationDisbeac = mapper.map(locationDisbeacDTO, LocationDisbeac.class);
         locationDisbeac.setId(UUID.randomUUID());
-        locationDisbeac.setDate(dateLocal);
+        locationDisbeac.setDate(System.currentTimeMillis());
         locationDisbeac.setDisbeac(disbeac);
 
         return new ResponseEntity<>(lds.save(locationDisbeac), HttpStatus.CREATED);

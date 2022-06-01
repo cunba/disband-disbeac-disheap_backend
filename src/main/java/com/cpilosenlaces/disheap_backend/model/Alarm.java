@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.model;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -28,7 +27,7 @@ public class Alarm {
     @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
     @Column
-    private LocalDateTime date;
+    private long date;
     @Column(name = "is_repetition")
     private Boolean isRepetition;
     @Column(name = "repetition_week_days", nullable = true)

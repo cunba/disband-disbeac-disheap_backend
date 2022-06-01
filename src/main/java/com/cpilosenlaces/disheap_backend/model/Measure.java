@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.model;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -46,7 +45,7 @@ public class Measure {
     @Column(name = "heart_rate", nullable = true)
     private float heartRate;
     @Column
-    private LocalDateTime date;
+    private long date;
 
     @ManyToOne
     @JoinColumn(name = "disband_id_measures_fk")

@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface MeasureRepository extends CrudRepository<Measure, UUID> {
     List<Measure> findByDisbandId(UUID disbandId);
 
-    List<Measure> findByDateBetweenAndDisbandId(LocalDateTime minDate, LocalDateTime maxDate, UUID disbandId);
+    List<Measure> findByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Measure> findAll();
 }

@@ -1,8 +1,5 @@
 package com.cpilosenlaces.disheap_backend.controller.impl;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +37,6 @@ public class UserApiController implements UserApi {
     @Autowired
     private UserService us;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
     @Override
     public ResponseEntity<UserModel> getById(UUID id) throws NotFoundException {
         try {
@@ -67,10 +62,9 @@ public class UserApiController implements UserApi {
         ModelMapper mapper = new ModelMapper();
         UserModel user = mapper.map(userDTO, UserModel.class);
         user.setId(UUID.randomUUID());
-        user.setBirthday(LocalDate.parse(userDTO.getBirthday(), formatter));
         user.setRole(userDTO.getRole().toUpperCase());
         user.setPassword(UserModel.encoder().encode(userDTO.getPassword()));
-        user.setRegisterDate(LocalDateTime.now());
+        user.setRegisterDate(System.currentTimeMillis());
 
         return new ResponseEntity<>(us.save(user), HttpStatus.CREATED);
     }
@@ -95,7 +89,7 @@ public class UserApiController implements UserApi {
 
         if (!userDTO.getBirthday().equals("string")) {
             System.out.println("birthday es null");
-            user.setBirthday(LocalDate.parse(userDTO.getBirthday(), formatter));
+            user.setBirthday(userDTO.getBirthday());
         }
         if (!userDTO.getEmail().equals("string")) {
             System.out.println("email es null");

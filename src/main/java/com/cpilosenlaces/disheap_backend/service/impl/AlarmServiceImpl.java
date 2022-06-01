@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +23,7 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public List<Alarm> findByDateBetweenAndDisbandId(LocalDateTime minDate, LocalDateTime maxDate, UUID disbandId) {
+    public List<Alarm> findByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
         return ar.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
     }
 

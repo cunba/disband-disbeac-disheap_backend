@@ -1,7 +1,5 @@
 package com.cpilosenlaces.disheap_backend.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -37,7 +35,7 @@ public class UserModel {
     @Column
     private String surname;
     @Column
-    private LocalDate birthday;
+    private String birthday;
     @Column(name = "is_disorder")
     private Boolean isDisorder;
     @Column
@@ -45,7 +43,7 @@ public class UserModel {
     @Column
     private String password;
     @Column(name = "register_date")
-    private LocalDateTime registerDate;
+    private long registerDate;
     @Column
     private String role;
 
