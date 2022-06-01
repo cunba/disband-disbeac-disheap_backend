@@ -53,8 +53,8 @@ public class DisbandServiceImpl implements DisbandService {
     }
 
     @Override
-    public void deleteAll() {
-        dr.deleteAll();
+    public void deleteByUser(List<Disband> disbands) {
+        dr.deleteAll(disbands);
     }
 
 }

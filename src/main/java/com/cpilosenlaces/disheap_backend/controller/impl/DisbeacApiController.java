@@ -132,18 +132,8 @@ public class DisbeacApiController implements DisbeacApi {
     @Override
     public ResponseEntity<List<Disbeac>> deleteByUserId(UUID userId) {
         List<Disbeac> disbeacs = ds.findByUserId(userId);
+        ds.deleteByUser(disbeacs);
 
-        for (Disbeac disbeac : disbeacs) {
-            ds.delete(disbeac);
-        }
-
-        return new ResponseEntity<>(disbeacs, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<Disbeac>> deleteAll() {
-        List<Disbeac> disbeacs = ds.findAll();
-        ds.deleteAll();
         return new ResponseEntity<>(disbeacs, HttpStatus.OK);
     }
 

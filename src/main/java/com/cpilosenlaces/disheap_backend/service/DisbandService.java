@@ -21,5 +21,5 @@ public interface DisbandService {
 
     void delete(Disband disband);
 
-    void deleteAll();
+    void deleteByUser(List<Disband> disbands);
 }

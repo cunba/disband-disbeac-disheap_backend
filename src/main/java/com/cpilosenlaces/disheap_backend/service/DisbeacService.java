@@ -21,5 +21,5 @@ public interface DisbeacService {
 
     void delete(Disbeac disbeac);
 
-    void deleteAll();
+    void deleteByUser(List<Disbeac> disbeacs);
 }

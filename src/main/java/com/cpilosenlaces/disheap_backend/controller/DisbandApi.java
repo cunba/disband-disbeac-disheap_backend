@@ -11,7 +11,6 @@ import com.cpilosenlaces.disheap_backend.model.util.HandledResponse;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -138,13 +137,4 @@ public interface DisbandApi {
             @Parameter(description = "User id", required = true) @PathVariable UUID userId)
             throws NotFoundException;
 
-    @Secured({ "ROLE_ADIMN" })
-    @Operation(summary = "Delete all disbands", operationId = "deleteAllDisbands")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @DeleteMapping
-    public ResponseEntity<List<Disband>> deleteAll();
 }

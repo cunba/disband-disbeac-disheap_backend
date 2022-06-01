@@ -55,8 +55,8 @@ public class LocationDisbeacServiceImpl implements LocationDisbeacService {
     }
 
     @Override
-    public void deleteAll() {
-        ldr.deleteAll();
+    public void deleteByDisbeac(List<LocationDisbeac> listLocations) {
+        ldr.deleteAll(listLocations);
     }
 
 }

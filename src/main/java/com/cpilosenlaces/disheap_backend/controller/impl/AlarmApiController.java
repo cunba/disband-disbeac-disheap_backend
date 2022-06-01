@@ -116,18 +116,8 @@ public class AlarmApiController implements AlarmApi {
     @Override
     public ResponseEntity<List<Alarm>> deleteByDisbandId(UUID disbandId) {
         List<Alarm> alarms = as.findByDisbandId(disbandId);
+        as.deleteByDisband(alarms);
 
-        for (Alarm alarm : alarms) {
-            as.delete(alarm);
-        }
-
-        return new ResponseEntity<>(alarms, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<Alarm>> deleteAll() {
-        List<Alarm> alarms = as.findAll();
-        as.deleteAll();
         return new ResponseEntity<>(alarms, HttpStatus.OK);
     }
 

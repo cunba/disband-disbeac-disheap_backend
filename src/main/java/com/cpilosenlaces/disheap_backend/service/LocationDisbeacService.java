@@ -22,5 +22,5 @@ public interface LocationDisbeacService {
 
     void delete(LocationDisbeac locationDisbeac);
 
-    void deleteAll();
+    void deleteByDisbeac(List<LocationDisbeac> listLocations);
 }

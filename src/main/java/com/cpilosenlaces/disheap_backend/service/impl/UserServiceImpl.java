@@ -47,9 +47,4 @@ public class UserServiceImpl implements UserService {
         ur.delete(user);
     }
 
-    @Override
-    public void deleteAll() {
-        ur.deleteAll();
-    }
-
 }

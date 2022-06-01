@@ -48,8 +48,8 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public void deleteAll() {
-        ar.deleteAll();
+    public void deleteByDisband(List<Alarm> alarms) {
+        ar.deleteAll(alarms);
     }
 
 }

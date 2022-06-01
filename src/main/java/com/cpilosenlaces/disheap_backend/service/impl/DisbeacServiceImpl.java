@@ -53,8 +53,8 @@ public class DisbeacServiceImpl implements DisbeacService {
     }
 
     @Override
-    public void deleteAll() {
-        dr.deleteAll();
+    public void deleteByUser(List<Disbeac> disbeacs) {
+        dr.deleteAll(disbeacs);
     }
 
 }

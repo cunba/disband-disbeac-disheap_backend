@@ -129,13 +129,4 @@ public interface LocationDisbeacApi {
     ResponseEntity<List<LocationDisbeac>> deleteByDisbeacId(
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID disbeacId)
             throws NotFoundException;
-
-    @Operation(summary = "Delete all locations", operationId = "deleteAllLocation")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @DeleteMapping
-    ResponseEntity<List<LocationDisbeac>> deleteAll();
 }

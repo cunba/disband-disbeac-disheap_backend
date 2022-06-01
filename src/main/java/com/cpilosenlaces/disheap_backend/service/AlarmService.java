@@ -17,7 +17,8 @@ public interface AlarmService {
 
     Alarm save(Alarm alarm);
 
-    void delete(Alarm alarm);
+    void delete(Alarm alarms);
 
-    void deleteAll();
+    void deleteByDisband(List<Alarm> alarms);
+
 }

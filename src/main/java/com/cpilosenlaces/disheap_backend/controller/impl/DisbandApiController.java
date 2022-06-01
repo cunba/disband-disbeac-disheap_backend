@@ -132,18 +132,8 @@ public class DisbandApiController implements DisbandApi {
     @Override
     public ResponseEntity<List<Disband>> deleteByUserId(UUID userId) {
         List<Disband> disbands = ds.findByUserId(userId);
+        ds.deleteByUser(disbands);
 
-        for (Disband disband : disbands) {
-            ds.delete(disband);
-        }
-
-        return new ResponseEntity<>(disbands, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<Disband>> deleteAll() {
-        List<Disband> disbands = ds.findAll();
-        ds.deleteAll();
         return new ResponseEntity<>(disbands, HttpStatus.OK);
     }
 

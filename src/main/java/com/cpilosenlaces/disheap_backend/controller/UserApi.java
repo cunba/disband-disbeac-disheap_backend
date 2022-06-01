@@ -135,16 +135,4 @@ public interface UserApi {
             @Parameter(description = "User id", required = true) @PathVariable UUID id)
             throws NotFoundException;
 
-    @Secured({ "ROLE_ADMIN" })
-    @Operation(summary = "Delete all users", operationId = "deleteAllUser")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    @DeleteMapping
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
-    public ResponseEntity<List<UserModel>> deleteAll();
 }

@@ -106,23 +106,13 @@ public class LocationDisbeacApiController implements LocationDisbeacApi {
         try {
             ds.findById(disbeacId);
             List<LocationDisbeac> listLocations = lds.findByDisbeacId(disbeacId);
-
-            for (LocationDisbeac location : listLocations) {
-                lds.delete(location);
-            }
+            lds.deleteByDisbeac(listLocations);
 
             return new ResponseEntity<>(listLocations, HttpStatus.OK);
         } catch (NotFoundException nfe) {
             throw new NotFoundException("Disbeac with ID " + disbeacId + " does not exists.");
         }
 
-    }
-
-    @Override
-    public ResponseEntity<List<LocationDisbeac>> deleteAll() {
-        List<LocationDisbeac> listLocations = lds.findAll();
-        lds.deleteAll();
-        return new ResponseEntity<>(listLocations, HttpStatus.OK);
     }
 
     @ExceptionHandler(BadRequestException.class)

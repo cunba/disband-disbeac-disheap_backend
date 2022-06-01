@@ -135,13 +135,6 @@ public class UserApiController implements UserApi {
         }
     }
 
-    @Override
-    public ResponseEntity<List<UserModel>> deleteAll() {
-        List<UserModel> users = us.findAll();
-        us.deleteAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(Exception e) {
         Map<String, String> error = new HashMap<>();

@@ -18,6 +18,4 @@ public interface UserService {
     void updatePassword(UUID id, String password);
 
     void deleteUser(UserModel user);
-
-    void deleteAll();
 }
