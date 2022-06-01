@@ -3,6 +3,7 @@ package com.cpilosenlaces.disheap_backend.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
 import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.HeartRate;
@@ -37,9 +38,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/heart-rates", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
-@SecurityRequirements
-@SecurityRequirement(name = "bearer")
 public interface HeartRateApi {
+
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get all heart rates", operationId = "getAllHeartRate")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -49,6 +51,8 @@ public interface HeartRateApi {
 	@GetMapping
 	public ResponseEntity<List<HeartRate>> getAll();
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get heart rate by ID", operationId = "getById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -61,6 +65,8 @@ public interface HeartRateApi {
 			@Parameter(description = "Heart rate ID", required = true) @PathVariable UUID id)
 			throws NotFoundException;
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get heart rates by disband ID", operationId = "getHeartRatesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -71,6 +77,8 @@ public interface HeartRateApi {
 	public ResponseEntity<List<HeartRate>> getByDisbandId(
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID userId);
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get heart rates by date between and disband ID", operationId = "getHeartRatesByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -83,6 +91,8 @@ public interface HeartRateApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get heart rates by date between", operationId = "getHeartRatesByDateBetween")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -105,8 +115,10 @@ public interface HeartRateApi {
 	@PostMapping
 	public ResponseEntity<HeartRate> save(
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
-			throws NotFoundException;
+			throws NotFoundException, BadRequestException;
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Delete heart rates by disband ID", operationId = "deleteHeartRatesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),

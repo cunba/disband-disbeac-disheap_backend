@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LightningDTO {
+    private String email;
+    private String password;
     private float lightning;
     private float redLightning;
     private float greenLightning;

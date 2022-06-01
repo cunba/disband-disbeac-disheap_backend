@@ -37,9 +37,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/pressures", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
-@SecurityRequirements
-@SecurityRequirement(name = "bearer")
 public interface PressureApi {
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get all pressures", operationId = "getAllPressure")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -49,6 +49,8 @@ public interface PressureApi {
 	@GetMapping
 	public ResponseEntity<List<Pressure>> getAll();
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get pressure by ID", operationId = "getById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -61,6 +63,8 @@ public interface PressureApi {
 			@Parameter(description = "Pressure ID", required = true) @PathVariable UUID id)
 			throws NotFoundException;
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get pressures by disband ID", operationId = "getPressuresByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -71,6 +75,8 @@ public interface PressureApi {
 	public ResponseEntity<List<Pressure>> getByDisbandId(
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID userId);
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get pressures by date between and disband ID", operationId = "getPressuresByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -83,6 +89,8 @@ public interface PressureApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get pressures by date between", operationId = "getPressuresByDateBetween")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -107,6 +115,8 @@ public interface PressureApi {
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
 			throws NotFoundException;
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Delete pressures by disband ID", operationId = "deletePressuresByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),

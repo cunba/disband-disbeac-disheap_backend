@@ -37,9 +37,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/oxygens", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
-@SecurityRequirements
-@SecurityRequirement(name = "bearer")
 public interface OxygenApi {
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get all oxygens", operationId = "getAllOxygen")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -49,6 +49,8 @@ public interface OxygenApi {
 	@GetMapping
 	public ResponseEntity<List<Oxygen>> getAll();
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get oxygen by ID", operationId = "getById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -61,6 +63,8 @@ public interface OxygenApi {
 			@Parameter(description = "Oxygen ID", required = true) @PathVariable UUID id)
 			throws NotFoundException;
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get oxygens by disband ID", operationId = "getOxygensByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -71,6 +75,8 @@ public interface OxygenApi {
 	public ResponseEntity<List<Oxygen>> getByDisbandId(
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID userId);
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get oxygens by date between and disband ID", operationId = "getOxygensByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -83,6 +89,8 @@ public interface OxygenApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get oxygens by date between", operationId = "getOxygensByDateBetween")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -107,6 +115,8 @@ public interface OxygenApi {
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
 			throws NotFoundException;
 
+	@SecurityRequirements
+	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Delete oxygens by disband ID", operationId = "deleteOxygensByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
