@@ -1,7 +1,5 @@
 package com.cpilosenlaces.disheap_backend.controller.impl;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,19 +51,14 @@ public class MeasureApiController implements MeasureApi {
     public ResponseEntity<List<Measure>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
             UUID disbandId) {
 
-        Timestamp minTimestamp = new Timestamp(minDate);
-        LocalDateTime minDateLocal = minTimestamp.toLocalDateTime();
-        Timestamp maxTimestamp = new Timestamp(maxDate);
-        LocalDateTime maxDateLocal = maxTimestamp.toLocalDateTime();
-
-        LocalDateTime changerDate = LocalDateTime.now();
-        if (minDateLocal.isAfter(maxDateLocal)) {
-            changerDate = minDateLocal;
-            minDateLocal = maxDateLocal;
-            maxDateLocal = changerDate;
+        long changerDate = System.currentTimeMillis();
+        if (minDate > maxDate) {
+            changerDate = minDate;
+            minDate = maxDate;
+            maxDate = changerDate;
         }
 
-        return new ResponseEntity<>(as.findByDateBetweenAndDisbandId(minDateLocal, maxDateLocal, disbandId),
+        return new ResponseEntity<>(as.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
                 HttpStatus.OK);
     }
 
@@ -81,11 +74,8 @@ public class MeasureApiController implements MeasureApi {
 
         Measure measure = new Measure();
 
-        Timestamp timestamp = new Timestamp(measureDTO.getDate());
-        LocalDateTime dateLocal = timestamp.toLocalDateTime();
-
         measure.setId(UUID.randomUUID());
-        measure.setDate(dateLocal);
+        measure.setDate(System.currentTimeMillis());
         measure.setDisband(disband);
 
         if (measureDTO.getTemperature() != -1000) {

@@ -1,7 +1,5 @@
 package com.cpilosenlaces.disheap_backend.controller.impl;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,19 +53,14 @@ public class AlarmApiController implements AlarmApi {
     public ResponseEntity<List<Alarm>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
             UUID disbandId) {
 
-        Timestamp minTimestamp = new Timestamp(minDate);
-        LocalDateTime minDateLocal = minTimestamp.toLocalDateTime();
-        Timestamp maxTimestamp = new Timestamp(maxDate);
-        LocalDateTime maxDateLocal = maxTimestamp.toLocalDateTime();
-
-        LocalDateTime changerDate = LocalDateTime.now();
-        if (minDateLocal.isAfter(maxDateLocal)) {
-            changerDate = minDateLocal;
-            minDateLocal = maxDateLocal;
-            maxDateLocal = changerDate;
+        long changerDate = 0;
+        if (minDate > maxDate) {
+            changerDate = minDate;
+            minDate = maxDate;
+            maxDate = changerDate;
         }
 
-        return new ResponseEntity<>(as.findByDateBetweenAndDisbandId(minDateLocal, maxDateLocal, disbandId),
+        return new ResponseEntity<>(as.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
                 HttpStatus.OK);
     }
 
@@ -81,13 +74,10 @@ public class AlarmApiController implements AlarmApi {
             throw new NotFoundException("Disband with ID " + alarmDTO.getDisbandId() + " does not exists.");
         }
 
-        Timestamp timestamp = new Timestamp(alarmDTO.getDate());
-        LocalDateTime dateLocal = timestamp.toLocalDateTime();
-
         ModelMapper mapper = new ModelMapper();
         Alarm alarm = mapper.map(alarmDTO, Alarm.class);
         alarm.setId(UUID.randomUUID());
-        alarm.setDate(dateLocal);
+        alarm.setDate(System.currentTimeMillis());
         alarm.setDisband(disband);
 
         return new ResponseEntity<>(as.save(alarm), HttpStatus.CREATED);
@@ -102,12 +92,9 @@ public class AlarmApiController implements AlarmApi {
             throw new NotFoundException("Alarm with ID " + id + " does not exists.");
         }
 
-        Timestamp timestamp = new Timestamp(alarmDTO.getDate());
-        LocalDateTime dateLocal = timestamp.toLocalDateTime();
-
         ModelMapper mapper = new ModelMapper();
         alarm = mapper.map(alarmDTO, Alarm.class);
-        alarm.setDate(dateLocal);
+        alarm.setDate(System.currentTimeMillis());
 
         as.save(alarm);
 

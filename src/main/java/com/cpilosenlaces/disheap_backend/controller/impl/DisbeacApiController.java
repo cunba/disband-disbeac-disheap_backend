@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.controller.impl;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +66,7 @@ public class DisbeacApiController implements DisbeacApi {
         ModelMapper mapper = new ModelMapper();
         Disbeac disbeac = mapper.map(disbeacDTO, Disbeac.class);
         disbeac.setId(UUID.randomUUID());
-        disbeac.setDate(LocalDateTime.now());
+        disbeac.setDate(System.currentTimeMillis());
         disbeac.setUser(user);
 
         return new ResponseEntity<>(ds.save(disbeac), HttpStatus.CREATED);
@@ -91,7 +90,7 @@ public class DisbeacApiController implements DisbeacApi {
 
         ModelMapper mapper = new ModelMapper();
         disbeac = mapper.map(disbeacDTO, Disbeac.class);
-        disbeac.setDate(LocalDateTime.now());
+        disbeac.setDate(System.currentTimeMillis());
         disbeac.setUser(user);
 
         ds.save(disbeac);

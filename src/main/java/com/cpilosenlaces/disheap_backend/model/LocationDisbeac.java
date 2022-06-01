@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.model;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -32,7 +31,7 @@ public class LocationDisbeac {
     @Column
     private float longitude;
     @Column
-    private LocalDateTime date;
+    private long date;
 
     @ManyToOne
     @JoinColumn(name = "disbeac_id_location_fk")

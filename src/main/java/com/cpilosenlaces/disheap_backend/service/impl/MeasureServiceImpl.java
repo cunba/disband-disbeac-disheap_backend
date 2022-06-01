@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +23,7 @@ public class MeasureServiceImpl implements MeasureService {
     }
 
     @Override
-    public List<Measure> findByDateBetweenAndDisbandId(LocalDateTime minDate, LocalDateTime maxDate, UUID disbandId) {
+    public List<Measure> findByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
         return mr.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
     }
 

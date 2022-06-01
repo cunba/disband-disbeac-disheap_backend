@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.model;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -34,7 +33,7 @@ public class Disbeac {
     @Column
     private String version;
     @Column
-    private LocalDateTime date;
+    private long date;
 
     @ManyToOne
     @JoinColumn(name = "user_id_disbeacs_fk")

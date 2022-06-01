@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,7 +9,7 @@ import com.cpilosenlaces.disheap_backend.model.Measure;
 public interface MeasureService {
     List<Measure> findByDisbandId(UUID disbandId);
 
-    List<Measure> findByDateBetweenAndDisbandId(LocalDateTime minDate, LocalDateTime maxDate, UUID disbandId);
+    List<Measure> findByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     Measure findById(UUID id) throws NotFoundException;
 

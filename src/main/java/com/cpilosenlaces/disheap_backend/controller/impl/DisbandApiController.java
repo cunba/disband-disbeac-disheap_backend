@@ -1,6 +1,5 @@
 package com.cpilosenlaces.disheap_backend.controller.impl;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +66,7 @@ public class DisbandApiController implements DisbandApi {
         ModelMapper mapper = new ModelMapper();
         Disband disband = mapper.map(disbandDTO, Disband.class);
         disband.setId(UUID.randomUUID());
-        disband.setDate(LocalDateTime.now());
+        disband.setDate(System.currentTimeMillis());
         disband.setUser(user);
 
         return new ResponseEntity<>(ds.save(disband), HttpStatus.CREATED);
@@ -91,7 +90,7 @@ public class DisbandApiController implements DisbandApi {
 
         ModelMapper mapper = new ModelMapper();
         disband = mapper.map(disbandDTO, Disband.class);
-        disband.setDate(LocalDateTime.now());
+        disband.setDate(System.currentTimeMillis());
         disband.setUser(user);
 
         ds.save(disband);
