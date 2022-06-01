@@ -7,15 +7,15 @@ import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
-import com.cpilosenlaces.disheap_backend.controller.MeasureApi;
+import com.cpilosenlaces.disheap_backend.controller.HumidityApi;
 import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
 import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
+import com.cpilosenlaces.disheap_backend.model.Humidity;
 import com.cpilosenlaces.disheap_backend.model.Disband;
-import com.cpilosenlaces.disheap_backend.model.Measure;
 import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
+import com.cpilosenlaces.disheap_backend.service.HumidityService;
 import com.cpilosenlaces.disheap_backend.service.DisbandService;
-import com.cpilosenlaces.disheap_backend.service.MeasureService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,29 +26,34 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Controller
-public class MeasureApiController implements MeasureApi {
+public class HumidityApiController implements HumidityApi {
 
     @Autowired
-    private MeasureService as;
+    private HumidityService hs;
     @Autowired
     private DisbandService ds;
 
     @Override
-    public ResponseEntity<Measure> getById(UUID id) throws NotFoundException {
+    public ResponseEntity<List<Humidity>> getAll() {
+        return new ResponseEntity<>(hs.findAll(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Humidity> getById(UUID id) throws NotFoundException {
         try {
-            return new ResponseEntity<>(as.findById(id), HttpStatus.OK);
+            return new ResponseEntity<>(hs.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Measure with ID " + id + " does not exists.");
+            throw new NotFoundException("Humidity with ID " + id + " does not exists.");
         }
     }
 
     @Override
-    public ResponseEntity<List<Measure>> getByDisbandId(UUID disbandId) {
-        return new ResponseEntity<>(as.findByDisbandId(disbandId), HttpStatus.OK);
+    public ResponseEntity<List<Humidity>> getByDisbandId(UUID disbandId) {
+        return new ResponseEntity<>(hs.findByDisbandId(disbandId), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Measure>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
+    public ResponseEntity<List<Humidity>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
             UUID disbandId) {
 
         long changerDate = System.currentTimeMillis();
@@ -58,12 +63,25 @@ public class MeasureApiController implements MeasureApi {
             maxDate = changerDate;
         }
 
-        return new ResponseEntity<>(as.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
+        return new ResponseEntity<>(hs.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
                 HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Measure> save(MeasureDTO measureDTO) throws NotFoundException {
+    public ResponseEntity<List<Humidity>> getByDateBetween(long minDate, long maxDate) {
+
+        long changerDate = System.currentTimeMillis();
+        if (minDate > maxDate) {
+            changerDate = minDate;
+            minDate = maxDate;
+            maxDate = changerDate;
+        }
+
+        return new ResponseEntity<>(hs.findByDateBetween(minDate, maxDate), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Humidity> save(MeasureDTO measureDTO) throws NotFoundException {
 
         Disband disband = null;
         try {
@@ -72,71 +90,28 @@ public class MeasureApiController implements MeasureApi {
             throw new NotFoundException("Disband with ID " + measureDTO.getDisbandId() + " does not exists.");
         }
 
-        Measure measure = new Measure();
+        Humidity humidity = new Humidity();
 
-        measure.setId(UUID.randomUUID());
-        measure.setDate(System.currentTimeMillis());
-        measure.setDisband(disband);
+        humidity.setId(UUID.randomUUID());
+        humidity.setData(measureDTO.getData());
+        humidity.setDate(measureDTO.getDate());
+        humidity.setDisband(disband);
 
-        if (measureDTO.getTemperature() != -1000) {
-            measure.setTemperature(measureDTO.getTemperature());
-        }
-        if (measureDTO.getHumidity() != -1000) {
-            measure.setHumidity(measureDTO.getHumidity());
-        }
-        if (measureDTO.getPressure() != -1000) {
-            measure.setPressure(measureDTO.getPressure());
-        }
-        if (measureDTO.getAmbientNoise() != -1000) {
-            measure.setAmbientNoise(measureDTO.getAmbientNoise());
-        }
-        if (measureDTO.getLightning() != -1000) {
-            measure.setLightning(measureDTO.getLightning());
-        }
-        if (measureDTO.getRedLightning() != -1000) {
-            measure.setRedLightning(measureDTO.getRedLightning());
-        }
-        if (measureDTO.getGreenLightning() != -1000) {
-            measure.setGreenLightning(measureDTO.getGreenLightning());
-        }
-        if (measureDTO.getBlueLightning() != -1000) {
-            measure.setBlueLightning(measureDTO.getBlueLightning());
-        }
-        if (measureDTO.getHeartRate() != -1000) {
-            measure.setHeartRate(measureDTO.getHeartRate());
-        }
-
-        return new ResponseEntity<>(as.save(measure), HttpStatus.CREATED);
+        return new ResponseEntity<>(hs.save(humidity), HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Measure> delete(UUID id) throws NotFoundException {
+    public ResponseEntity<List<Humidity>> deleteByDisbandId(UUID disbandId) throws NotFoundException {
         try {
-            Measure measure = as.findById(id);
-            as.delete(measure);
-
-            return new ResponseEntity<>(measure, HttpStatus.OK);
+            ds.findById(disbandId);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Alrm with ID " + id + " does not exists.");
-        }
-    }
-
-    @Override
-    public ResponseEntity<List<Measure>> deleteByDisbandId(UUID disbandId) {
-        List<Measure> measures = as.findByDisbandId(disbandId);
-
-        for (Measure measure : measures) {
-            as.delete(measure);
+            throw new NotFoundException("Disband with ID " + disbandId + " does not exists.");
         }
 
-        return new ResponseEntity<>(measures, HttpStatus.OK);
-    }
+        List<Humidity> listHumiditys = hs.findByDisbandId(disbandId);
+        hs.deleteByDisband(listHumiditys);
 
-    @Override
-    public ResponseEntity<List<Measure>> deleteAll() {
-        List<Measure> measures = as.findAll();
-        as.deleteAll();
-        return new ResponseEntity<>(measures, HttpStatus.OK);
+        return new ResponseEntity<>(listHumiditys, HttpStatus.OK);
     }
 
     @ExceptionHandler(BadRequestException.class)

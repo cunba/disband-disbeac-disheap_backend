@@ -5,12 +5,11 @@ import java.util.UUID;
 
 import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
-import com.cpilosenlaces.disheap_backend.model.Measure;
+import com.cpilosenlaces.disheap_backend.model.HeartRate;
 import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,92 +32,90 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Measures", description = "Measure API")
+@Tag(name = "Heart rate", description = "Heart rate API")
 @Validated
 @RestController
-@RequestMapping(value = "/measures", produces = { MediaType.APPLICATION_JSON_VALUE })
+@RequestMapping(value = "/heart-rates", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
 @SecurityRequirements
 @SecurityRequirement(name = "bearer")
-public interface MeasureApi {
-	@Operation(summary = "Get measure by ID", operationId = "getById")
+public interface HeartRateApi {
+	@Operation(summary = "Get all heart rates", operationId = "getAllHeartRate")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-			@ApiResponse(responseCode = "404", description = "Measure not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+	})
+	@GetMapping
+	public ResponseEntity<List<HeartRate>> getAll();
+
+	@Operation(summary = "Get heart rate by ID", operationId = "getById")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK"),
+			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@GetMapping("/{id}")
-	public ResponseEntity<Measure> getById(
-			@Parameter(description = "Measure ID", required = true) @PathVariable UUID id)
+	public ResponseEntity<HeartRate> getById(
+			@Parameter(description = "Heart rate ID", required = true) @PathVariable UUID id)
 			throws NotFoundException;
 
-	@Operation(summary = "Get measures by disband ID", operationId = "getMeasuresByDisbandId")
+	@Operation(summary = "Get heart rates by disband ID", operationId = "getHeartRatesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@GetMapping("/disbands/{disbandId}")
-	public ResponseEntity<List<Measure>> getByDisbandId(
+	public ResponseEntity<List<HeartRate>> getByDisbandId(
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID userId);
 
-	@Operation(summary = "Get measures by date between and disband ID", operationId = "getMeasuresByDateBetweenAndDisbandId")
+	@Operation(summary = "Get heart rates by date between and disband ID", operationId = "getHeartRatesByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@GetMapping("/date/between/disband/{disbandId}")
-	public ResponseEntity<List<Measure>> getByDateBetweenAndDisbandId(
+	public ResponseEntity<List<HeartRate>> getByDateBetweenAndDisbandId(
 			@Parameter(description = "Min date", required = true) @RequestParam(value = "min date") long minDate,
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@Operation(summary = "Save measure", operationId = "saveMeasure")
+	@Operation(summary = "Get heart rates by date between", operationId = "getHeartRatesByDateBetween")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK"),
+			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+	})
+	@GetMapping("/date/between")
+	public ResponseEntity<List<HeartRate>> getByDateBetween(
+			@Parameter(description = "Min date", required = true) @RequestParam(value = "min date") long minDate,
+			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate);
+
+	@Operation(summary = "Save heart rate", operationId = "saveHeartRate")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "CREATED"),
 			@ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-			@ApiResponse(responseCode = "404", description = "Disband not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@PostMapping
-	public ResponseEntity<Measure> save(
+	public ResponseEntity<HeartRate> save(
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
 			throws NotFoundException;
 
-	@Operation(summary = "Delete measure", operationId = "deleteMeasure")
+	@Operation(summary = "Delete heart rates by disband ID", operationId = "deleteHeartRatesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-			@ApiResponse(responseCode = "404", description = "Measure not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-	})
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Measure> delete(
-			@Parameter(description = "Measure id", required = true) @PathVariable UUID id)
-			throws NotFoundException;
-
-	@Operation(summary = "Delete measures by disband ID", operationId = "deleteMeasuresByDisbandId")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "OK"),
-			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@DeleteMapping("/disbands/{disbandId}")
-	public ResponseEntity<List<Measure>> deleteByDisbandId(
+	public ResponseEntity<List<HeartRate>> deleteByDisbandId(
 			@Parameter(description = "Disband id", required = true) @PathVariable UUID disbandId)
 			throws NotFoundException;
-
-	@Secured({ "ROLE_ADIMN" })
-	@Operation(summary = "Delete all measures", operationId = "deleteAllMeasures")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "OK"),
-			@ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-	})
-	@DeleteMapping
-	public ResponseEntity<List<Measure>> deleteAll();
 }

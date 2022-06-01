@@ -17,33 +17,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity(name = "measures")
+@Entity(name = "heart_rate")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Measure {
+public class HeartRate {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
-    @Column(nullable = true)
-    private float temperature;
-    @Column(nullable = true)
-    private float humidity;
-    @Column(nullable = true)
-    private float pressure;
-    @Column(name = "ambient_noise")
-    private float ambientNoise;
-    @Column(nullable = true)
-    private float lightning;
-    @Column(name = "red_lightning", nullable = true)
-    private float redLightning;
-    @Column(name = "green_lightning", nullable = true)
-    private float greenLightning;
-    @Column(name = "blue_lightning", nullable = true)
-    private float blueLightning;
-    @Column(name = "heart_rate", nullable = true)
-    private float heartRate;
+    @Column
+    private float data;
     @Column
     private long date;
 
