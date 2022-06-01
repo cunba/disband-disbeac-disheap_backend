@@ -104,6 +104,7 @@ public interface AmbientNoiseApi {
 			@Parameter(description = "Min date", required = true) @RequestParam(value = "min date") long minDate,
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate);
 
+	@SecurityRequirements(value = {})
 	@Operation(summary = "Save ambient noise", operationId = "saveAmbientNoise")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "CREATED"),

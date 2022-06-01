@@ -3,11 +3,6 @@ package com.cpilosenlaces.disheap_backend.controller;
 import java.util.List;
 import java.util.UUID;
 
-import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
-import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
-import com.cpilosenlaces.disheap_backend.model.Temperature;
-import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
+import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
+import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
+import com.cpilosenlaces.disheap_backend.model.Temperature;
+import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -113,7 +114,7 @@ public interface TemperatureApi {
 	@PostMapping
 	public ResponseEntity<Temperature> save(
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
-			throws NotFoundException;
+			throws NotFoundException, BadRequestException;
 
 	@SecurityRequirements
 	@SecurityRequirement(name = "bearer")

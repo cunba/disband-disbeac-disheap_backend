@@ -7,16 +7,6 @@ import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
-import com.cpilosenlaces.disheap_backend.controller.PressureApi;
-import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
-import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
-import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
-import com.cpilosenlaces.disheap_backend.model.Pressure;
-import com.cpilosenlaces.disheap_backend.model.Disband;
-import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
-import com.cpilosenlaces.disheap_backend.service.PressureService;
-import com.cpilosenlaces.disheap_backend.service.DisbandService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +15,19 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.cpilosenlaces.disheap_backend.controller.PressureApi;
+import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
+import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
+import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
+import com.cpilosenlaces.disheap_backend.model.Disband;
+import com.cpilosenlaces.disheap_backend.model.Pressure;
+import com.cpilosenlaces.disheap_backend.model.UserModel;
+import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
+import com.cpilosenlaces.disheap_backend.security.JwtRequest;
+import com.cpilosenlaces.disheap_backend.service.DisbandService;
+import com.cpilosenlaces.disheap_backend.service.PressureService;
+import com.cpilosenlaces.disheap_backend.service.UserService;
+
 @Controller
 public class PressureApiController implements PressureApi {
 
@@ -32,6 +35,8 @@ public class PressureApiController implements PressureApi {
     private PressureService ps;
     @Autowired
     private DisbandService ds;
+    @Autowired
+    private UserService us;
 
     @Override
     public ResponseEntity<List<Pressure>> getAll() {
@@ -81,7 +86,14 @@ public class PressureApiController implements PressureApi {
     }
 
     @Override
-    public ResponseEntity<Pressure> save(MeasureDTO measureDTO) throws NotFoundException {
+    public ResponseEntity<Pressure> save(MeasureDTO measureDTO) throws NotFoundException, BadRequestException {
+
+        JwtRequest jwtRequest = new JwtRequest(measureDTO.getEmail(), measureDTO.getPassword());
+        List<UserModel> user = us.findByEmail(jwtRequest.getEmail());
+
+        if (user.size() <= 0 || !(UserModel.encoder().matches(jwtRequest.getPassword(), user.get(0).getPassword()))) {
+            throw new BadRequestException("Credentials error, incorrect password for user " + jwtRequest.getEmail());
+        }
 
         Disband disband = null;
         try {

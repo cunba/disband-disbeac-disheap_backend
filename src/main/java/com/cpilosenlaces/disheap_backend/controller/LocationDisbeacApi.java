@@ -3,6 +3,7 @@ package com.cpilosenlaces.disheap_backend.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
 import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.LocationDisbeac;
@@ -114,7 +115,7 @@ public interface LocationDisbeacApi {
     @PostMapping
     ResponseEntity<LocationDisbeac> save(
             @Parameter(description = "Disbeac ID", required = true) @RequestBody LocationDisbeacDTO locationDisbeacDTO)
-            throws NotFoundException;
+            throws NotFoundException, BadRequestException;
 
     @SecurityRequirements
     @SecurityRequirement(name = "bearer")

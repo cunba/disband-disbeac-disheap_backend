@@ -7,16 +7,6 @@ import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
-import com.cpilosenlaces.disheap_backend.controller.LocationDisbeacApi;
-import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
-import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
-import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
-import com.cpilosenlaces.disheap_backend.model.Disbeac;
-import com.cpilosenlaces.disheap_backend.model.LocationDisbeac;
-import com.cpilosenlaces.disheap_backend.model.dto.LocationDisbeacDTO;
-import com.cpilosenlaces.disheap_backend.service.DisbeacService;
-import com.cpilosenlaces.disheap_backend.service.LocationDisbeacService;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +16,19 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.cpilosenlaces.disheap_backend.controller.LocationDisbeacApi;
+import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
+import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
+import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
+import com.cpilosenlaces.disheap_backend.model.Disbeac;
+import com.cpilosenlaces.disheap_backend.model.LocationDisbeac;
+import com.cpilosenlaces.disheap_backend.model.UserModel;
+import com.cpilosenlaces.disheap_backend.model.dto.LocationDisbeacDTO;
+import com.cpilosenlaces.disheap_backend.security.JwtRequest;
+import com.cpilosenlaces.disheap_backend.service.DisbeacService;
+import com.cpilosenlaces.disheap_backend.service.LocationDisbeacService;
+import com.cpilosenlaces.disheap_backend.service.UserService;
+
 @Controller
 public class LocationDisbeacApiController implements LocationDisbeacApi {
 
@@ -33,6 +36,8 @@ public class LocationDisbeacApiController implements LocationDisbeacApi {
     private LocationDisbeacService lds;
     @Autowired
     private DisbeacService ds;
+    @Autowired
+    private UserService us;
 
     @Override
     public ResponseEntity<List<LocationDisbeac>> getLast1ByDisbeacId(UUID disbeacId) {
@@ -73,7 +78,15 @@ public class LocationDisbeacApiController implements LocationDisbeacApi {
     }
 
     @Override
-    public ResponseEntity<LocationDisbeac> save(LocationDisbeacDTO locationDisbeacDTO) throws NotFoundException {
+    public ResponseEntity<LocationDisbeac> save(LocationDisbeacDTO locationDisbeacDTO) throws NotFoundException, BadRequestException {
+
+        JwtRequest jwtRequest = new JwtRequest(locationDisbeacDTO.getEmail(), locationDisbeacDTO.getPassword());
+        List<UserModel> user = us.findByEmail(jwtRequest.getEmail());
+
+        if (user.size() <= 0 || !(UserModel.encoder().matches(jwtRequest.getPassword(), user.get(0).getPassword()))) {
+            throw new BadRequestException("Credentials error, incorrect password for user " + jwtRequest.getEmail());
+        }
+
         Disbeac disbeac = null;
         try {
             disbeac = ds.findById(locationDisbeacDTO.getDisbeacId());

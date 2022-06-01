@@ -7,16 +7,6 @@ import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
-import com.cpilosenlaces.disheap_backend.controller.LightningApi;
-import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
-import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
-import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
-import com.cpilosenlaces.disheap_backend.model.Lightning;
-import com.cpilosenlaces.disheap_backend.model.Disband;
-import com.cpilosenlaces.disheap_backend.model.dto.LightningDTO;
-import com.cpilosenlaces.disheap_backend.service.LightningService;
-import com.cpilosenlaces.disheap_backend.service.DisbandService;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +16,19 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.cpilosenlaces.disheap_backend.controller.LightningApi;
+import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
+import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
+import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
+import com.cpilosenlaces.disheap_backend.model.Disband;
+import com.cpilosenlaces.disheap_backend.model.Lightning;
+import com.cpilosenlaces.disheap_backend.model.UserModel;
+import com.cpilosenlaces.disheap_backend.model.dto.LightningDTO;
+import com.cpilosenlaces.disheap_backend.security.JwtRequest;
+import com.cpilosenlaces.disheap_backend.service.DisbandService;
+import com.cpilosenlaces.disheap_backend.service.LightningService;
+import com.cpilosenlaces.disheap_backend.service.UserService;
+
 @Controller
 public class LightningApiController implements LightningApi {
 
@@ -33,6 +36,8 @@ public class LightningApiController implements LightningApi {
     private LightningService ls;
     @Autowired
     private DisbandService ds;
+    @Autowired
+    private UserService us;
 
     @Override
     public ResponseEntity<List<Lightning>> getAll() {
@@ -82,7 +87,14 @@ public class LightningApiController implements LightningApi {
     }
 
     @Override
-    public ResponseEntity<Lightning> save(LightningDTO lightningDTO) throws NotFoundException {
+    public ResponseEntity<Lightning> save(LightningDTO lightningDTO) throws NotFoundException, BadRequestException {
+
+        JwtRequest jwtRequest = new JwtRequest(lightningDTO.getEmail(), lightningDTO.getPassword());
+        List<UserModel> user = us.findByEmail(jwtRequest.getEmail());
+
+        if (user.size() <= 0 || !(UserModel.encoder().matches(jwtRequest.getPassword(), user.get(0).getPassword()))) {
+            throw new BadRequestException("Credentials error, incorrect password for user " + jwtRequest.getEmail());
+        }
 
         Disband disband = null;
         try {

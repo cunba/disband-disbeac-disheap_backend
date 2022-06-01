@@ -3,6 +3,7 @@ package com.cpilosenlaces.disheap_backend.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
 import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.Oxygen;
@@ -113,7 +114,7 @@ public interface OxygenApi {
 	@PostMapping
 	public ResponseEntity<Oxygen> save(
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
-			throws NotFoundException;
+			throws NotFoundException, BadRequestException;
 
 	@SecurityRequirements
 	@SecurityRequirement(name = "bearer")

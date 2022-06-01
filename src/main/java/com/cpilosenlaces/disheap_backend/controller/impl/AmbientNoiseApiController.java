@@ -7,18 +7,6 @@ import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
-import com.cpilosenlaces.disheap_backend.controller.AmbientNoiseApi;
-import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
-import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
-import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
-import com.cpilosenlaces.disheap_backend.model.AmbientNoise;
-import com.cpilosenlaces.disheap_backend.model.Disband;
-import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
-import com.cpilosenlaces.disheap_backend.security.JwtRequest;
-import com.cpilosenlaces.disheap_backend.security.JwtResponse;
-import com.cpilosenlaces.disheap_backend.service.AmbientNoiseService;
-import com.cpilosenlaces.disheap_backend.service.DisbandService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +14,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.cpilosenlaces.disheap_backend.controller.AmbientNoiseApi;
+import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
+import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
+import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
+import com.cpilosenlaces.disheap_backend.model.AmbientNoise;
+import com.cpilosenlaces.disheap_backend.model.Disband;
+import com.cpilosenlaces.disheap_backend.model.UserModel;
+import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
+import com.cpilosenlaces.disheap_backend.security.JwtRequest;
+import com.cpilosenlaces.disheap_backend.service.AmbientNoiseService;
+import com.cpilosenlaces.disheap_backend.service.DisbandService;
+import com.cpilosenlaces.disheap_backend.service.UserService;
 
 @Controller
 public class AmbientNoiseApiController implements AmbientNoiseApi {
@@ -35,7 +36,7 @@ public class AmbientNoiseApiController implements AmbientNoiseApi {
     @Autowired
     private DisbandService ds;
     @Autowired
-    private LoginApiController lac;
+    private UserService us;
 
     @Override
     public ResponseEntity<List<AmbientNoise>> getAll() {
@@ -86,10 +87,13 @@ public class AmbientNoiseApiController implements AmbientNoiseApi {
 
     @Override
     public ResponseEntity<AmbientNoise> save(MeasureDTO measureDTO) throws NotFoundException, BadRequestException {
+        
         JwtRequest jwtRequest = new JwtRequest(measureDTO.getEmail(), measureDTO.getPassword());
-        JwtResponse token = lac.login(jwtRequest).getBody();
-
-        System.out.println(token);
+        List<UserModel> user = us.findByEmail(jwtRequest.getEmail());
+       
+        if (user.size() <=0 ||!(UserModel.encoder().matches(jwtRequest.getPassword(), user.get(0).getPassword()))) {
+            throw new BadRequestException("Credentials error, incorrect password for user " + jwtRequest.getEmail());
+        }
 
         Disband disband = null;
         try {
