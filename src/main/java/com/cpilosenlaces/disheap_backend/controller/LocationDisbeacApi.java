@@ -42,8 +42,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface LocationDisbeacApi {
 
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Get last location by disbeac ID", operationId = "getLast1ByDisbeacId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -54,8 +52,6 @@ public interface LocationDisbeacApi {
     ResponseEntity<List<LocationDisbeac>> getLast1ByDisbeacId(
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID disbeacId);
 
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Get location by date between and disbeac ID", operationId = "getLocationByDateBetweenAndDisbeacId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -69,8 +65,6 @@ public interface LocationDisbeacApi {
             @Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID disbeacId);
 
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Get location by disbeac ID", operationId = "getLocationByDisbeacId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -81,8 +75,6 @@ public interface LocationDisbeacApi {
     ResponseEntity<List<LocationDisbeac>> getByDisbeacId(
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID disbeacId);
 
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Get location disbeac by ID", operationId = "getLocationById")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -95,8 +87,6 @@ public interface LocationDisbeacApi {
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID id)
             throws NotFoundException;
 
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Get all locations", operationId = "getAllLocation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -117,8 +107,6 @@ public interface LocationDisbeacApi {
             @Parameter(description = "Disbeac ID", required = true) @RequestBody LocationDisbeacDTO locationDisbeacDTO)
             throws NotFoundException, BadRequestException;
 
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete location by id", operationId = "deleteLocation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -131,8 +119,6 @@ public interface LocationDisbeacApi {
             @Parameter(description = "Location ID", required = true) @PathVariable UUID id)
             throws NotFoundException;
 
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete all locations by disbeac ID", operationId = "deleteByDisbeacId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),

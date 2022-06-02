@@ -38,10 +38,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/humidities", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
+@SecurityRequirements
+@SecurityRequirement(name = "bearer")
 public interface HumidityApi {
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get all humidities", operationId = "getAllHumidity")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -51,8 +51,6 @@ public interface HumidityApi {
 	@GetMapping
 	public ResponseEntity<List<Humidity>> getAll();
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get humidity by ID", operationId = "getById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -65,8 +63,6 @@ public interface HumidityApi {
 			@Parameter(description = "Humidity ID", required = true) @PathVariable UUID id)
 			throws NotFoundException;
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get humidities by disband ID", operationId = "getHumiditysByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -77,8 +73,6 @@ public interface HumidityApi {
 	public ResponseEntity<List<Humidity>> getByDisbandId(
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID userId);
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get humidities by date between and disband ID", operationId = "getHumiditysByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -91,8 +85,6 @@ public interface HumidityApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get humidities by date between", operationId = "getHumiditysByDateBetween")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -117,8 +109,6 @@ public interface HumidityApi {
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
 			throws NotFoundException, BadRequestException;
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Delete humidities by disband ID", operationId = "deleteHumiditysByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),

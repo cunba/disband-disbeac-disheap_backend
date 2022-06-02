@@ -38,9 +38,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/lightnings", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
+@SecurityRequirements
+@SecurityRequirement(name = "bearer")
 public interface LightningApi {
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
+
 	@Operation(summary = "Get all lightnings", operationId = "getAllLightning")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -50,8 +51,7 @@ public interface LightningApi {
 	@GetMapping
 	public ResponseEntity<List<Lightning>> getAll();
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
+
 	@Operation(summary = "Get lightnint by ID", operationId = "getById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -64,8 +64,7 @@ public interface LightningApi {
 			@Parameter(description = "Lightnint ID", required = true) @PathVariable UUID id)
 			throws NotFoundException;
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
+
 	@Operation(summary = "Get lightnings by disband ID", operationId = "getLightningsByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -76,8 +75,7 @@ public interface LightningApi {
 	public ResponseEntity<List<Lightning>> getByDisbandId(
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID userId);
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
+
 	@Operation(summary = "Get lightnings by date between and disband ID", operationId = "getLightningsByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -90,8 +88,7 @@ public interface LightningApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
+
 	@Operation(summary = "Get lightnings by date between", operationId = "getLightningsByDateBetween")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -116,8 +113,7 @@ public interface LightningApi {
 			@Parameter(description = "Measure object", required = true) @RequestBody LightningDTO LightningDTO)
 			throws NotFoundException, BadRequestException;
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
+
 	@Operation(summary = "Delete lightnings by disband ID", operationId = "deleteLightningsByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),

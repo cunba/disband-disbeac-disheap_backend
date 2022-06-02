@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationDisbeacDTO {
-    private String email;
-    private String password;
     private float latitude;
     private float longitude;
     private long date;

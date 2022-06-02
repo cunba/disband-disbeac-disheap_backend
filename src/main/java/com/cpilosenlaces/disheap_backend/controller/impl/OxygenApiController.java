@@ -21,12 +21,9 @@ import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
 import com.cpilosenlaces.disheap_backend.exception.NotFoundException;
 import com.cpilosenlaces.disheap_backend.model.Disband;
 import com.cpilosenlaces.disheap_backend.model.Oxygen;
-import com.cpilosenlaces.disheap_backend.model.UserModel;
 import com.cpilosenlaces.disheap_backend.model.dto.MeasureDTO;
-import com.cpilosenlaces.disheap_backend.security.JwtRequest;
 import com.cpilosenlaces.disheap_backend.service.DisbandService;
 import com.cpilosenlaces.disheap_backend.service.OxygenService;
-import com.cpilosenlaces.disheap_backend.service.UserService;
 
 @Controller
 public class OxygenApiController implements OxygenApi {
@@ -35,8 +32,6 @@ public class OxygenApiController implements OxygenApi {
     private OxygenService os;
     @Autowired
     private DisbandService ds;
-    @Autowired
-    private UserService us;
 
     @Override
     public ResponseEntity<List<Oxygen>> getAll() {
@@ -87,13 +82,6 @@ public class OxygenApiController implements OxygenApi {
 
     @Override
     public ResponseEntity<Oxygen> save(MeasureDTO measureDTO) throws NotFoundException, BadRequestException {
-
-        JwtRequest jwtRequest = new JwtRequest(measureDTO.getEmail(), measureDTO.getPassword());
-        List<UserModel> user = us.findByEmail(jwtRequest.getEmail());
-
-        if (user.size() <= 0 || !(UserModel.encoder().matches(jwtRequest.getPassword(), user.get(0).getPassword()))) {
-            throw new BadRequestException("Credentials error, incorrect password for user " + jwtRequest.getEmail());
-        }
 
         Disband disband = null;
         try {

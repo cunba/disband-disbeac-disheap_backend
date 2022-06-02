@@ -38,10 +38,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/ambient-noises", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
+@SecurityRequirements
+@SecurityRequirement(name = "bearer")
 public interface AmbientNoiseApi {
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get all ambient noises", operationId = "getAllAmbientNoise")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -51,8 +51,6 @@ public interface AmbientNoiseApi {
 	@GetMapping
 	public ResponseEntity<List<AmbientNoise>> getAll();
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get ambient noise by ID", operationId = "getById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -65,8 +63,6 @@ public interface AmbientNoiseApi {
 			@Parameter(description = "Ambient noise ID", required = true) @PathVariable UUID id)
 			throws NotFoundException;
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get Ambient noises by disband ID", operationId = "getAmbientNoisesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -77,8 +73,6 @@ public interface AmbientNoiseApi {
 	public ResponseEntity<List<AmbientNoise>> getByDisbandId(
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID userId);
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get ambient noises by date between and disband ID", operationId = "getAmbientNoisesByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -91,8 +85,6 @@ public interface AmbientNoiseApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get ambient noises by date between", operationId = "getAmbientNoisesByDateBetween")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -118,8 +110,6 @@ public interface AmbientNoiseApi {
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
 			throws NotFoundException, BadRequestException;
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Delete ambient noises by disband ID", operationId = "deleteAmbientNoisesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),

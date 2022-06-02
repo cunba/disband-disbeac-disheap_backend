@@ -38,9 +38,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/temperatures", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
+@SecurityRequirements
+@SecurityRequirement(name = "bearer")
 public interface TemperatureApi {
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
+	
 	@Operation(summary = "Get all temperatures", operationId = "getAllTemperature")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -50,8 +51,6 @@ public interface TemperatureApi {
 	@GetMapping
 	public ResponseEntity<List<Temperature>> getAll();
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get temperature by ID", operationId = "getById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -64,8 +63,6 @@ public interface TemperatureApi {
 			@Parameter(description = "Temperature ID", required = true) @PathVariable UUID id)
 			throws NotFoundException;
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get temperatures by disband ID", operationId = "getTemperaturesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -76,8 +73,6 @@ public interface TemperatureApi {
 	public ResponseEntity<List<Temperature>> getByDisbandId(
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID userId);
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get temperatures by date between and disband ID", operationId = "getTemperaturesByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -90,8 +85,6 @@ public interface TemperatureApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Get temperatures by date between", operationId = "getTemperaturesByDateBetween")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
@@ -116,8 +109,6 @@ public interface TemperatureApi {
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
 			throws NotFoundException, BadRequestException;
 
-	@SecurityRequirements
-	@SecurityRequirement(name = "bearer")
 	@Operation(summary = "Delete temperatures by disband ID", operationId = "deleteTemperaturesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),

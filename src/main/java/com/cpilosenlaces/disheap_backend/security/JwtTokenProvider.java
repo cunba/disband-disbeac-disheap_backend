@@ -27,7 +27,7 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtTokenProvider {
 
-    public static final int JWT_TOKEN_VALIDITY = 21600; // 6 hours in seconds of assigned time validated
+    public static final int JWT_TOKEN_VALIDITY = 86400; // 24 hours in seconds of assigned time validated
     public static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     public static final long EXPIRATION_DATE = 3600000L;
     public static final String TOKEN_PREFIX = "Bearer ";
