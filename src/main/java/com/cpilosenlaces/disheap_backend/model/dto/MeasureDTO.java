@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MeasureDTO {
-    private String measureName;
     private float data;
     private long date;
     @NotNull
