@@ -7,6 +7,15 @@ import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import com.cpilosenlaces.disheap_backend.controller.DisbandApi;
 import com.cpilosenlaces.disheap_backend.exception.BadRequestException;
 import com.cpilosenlaces.disheap_backend.exception.ErrorResponse;
@@ -17,15 +26,6 @@ import com.cpilosenlaces.disheap_backend.model.dto.DisbandDTO;
 import com.cpilosenlaces.disheap_backend.model.util.HandledResponse;
 import com.cpilosenlaces.disheap_backend.service.DisbandService;
 import com.cpilosenlaces.disheap_backend.service.UserService;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Controller
 public class DisbandApiController implements DisbandApi {
@@ -56,6 +56,28 @@ public class DisbandApiController implements DisbandApi {
 
     @Override
     public ResponseEntity<Disband> save(DisbandDTO disbandDTO) throws NotFoundException {
+        
+        List<Disband> disbands = ds.findByMac(disbandDTO.getMac());
+        UUID userId = disbandDTO.getUserId();
+        
+        if (disbands.size() > 0) {
+            Disband disband = disbands.get(0);
+            if (disband.getUser().getId() == disbandDTO.getUserId()) {
+                return new ResponseEntity<>(disband, HttpStatus.OK);
+            } else {
+                UserModel user = null;
+                try {
+                    user = us.findById(userId);
+                } catch (NotFoundException nfe) {
+                    throw new NotFoundException("User with ID " + userId + " does not exists");
+                }
+                disband.setUser(user);
+                ds.updateUserId(userId, disband.getId());
+
+                return new ResponseEntity<>(disband, HttpStatus.OK);
+            }
+        }
+        
         UserModel user = null;
         try {
             user = us.findById(disbandDTO.getUserId());
@@ -107,7 +129,7 @@ public class DisbandApiController implements DisbandApi {
         }
 
         try {
-            us.findById(id);
+            us.findById(userId);
         } catch (NotFoundException nfe) {
             throw new NotFoundException("User with ID " + id + " does not exists");
         }

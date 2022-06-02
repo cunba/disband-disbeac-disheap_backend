@@ -56,6 +56,27 @@ public class DisbeacApiController implements DisbeacApi {
 
     @Override
     public ResponseEntity<Disbeac> save(DisbeacDTO disbeacDTO) throws NotFoundException {
+        List<Disbeac> disbeacs = ds.findByMac(disbeacDTO.getMac());
+        UUID userId = disbeacDTO.getUserId();
+        
+        if (disbeacs.size() > 0) {
+            Disbeac disbeac = disbeacs.get(0);
+            if (disbeac.getUser().getId() == disbeacDTO.getUserId()) {
+                return new ResponseEntity<>(disbeac, HttpStatus.OK);
+            } else {
+                UserModel user = null;
+                try {
+                    user = us.findById(userId);
+                } catch (NotFoundException nfe) {
+                    throw new NotFoundException("User with ID " + userId + " does not exists");
+                }
+                disbeac.setUser(user);
+                ds.updateUserId(userId, disbeac.getId());
+
+                return new ResponseEntity<>(disbeac, HttpStatus.OK);
+            }
+        }
+        
         UserModel user = null;
         try {
             user = us.findById(disbeacDTO.getUserId());
@@ -74,6 +95,7 @@ public class DisbeacApiController implements DisbeacApi {
 
     @Override
     public ResponseEntity<HandledResponse> update(UUID id, DisbeacDTO disbeacDTO) throws NotFoundException {
+
         Disbeac disbeac = null;
         try {
             disbeac = ds.findById(id);
@@ -107,9 +129,9 @@ public class DisbeacApiController implements DisbeacApi {
         }
 
         try {
-            us.findById(id);
+            us.findById(userId);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("User with ID " + id + " does not exists");
+            throw new NotFoundException("User with ID " + userId + " does not exists");
         }
 
         ds.updateUserId(userId, id);

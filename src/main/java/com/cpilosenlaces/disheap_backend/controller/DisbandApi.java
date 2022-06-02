@@ -77,6 +77,7 @@ public interface DisbandApi {
 
     @Operation(summary = "Save disband", operationId = "savedisband")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "201", description = "CREATED"),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorize", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
