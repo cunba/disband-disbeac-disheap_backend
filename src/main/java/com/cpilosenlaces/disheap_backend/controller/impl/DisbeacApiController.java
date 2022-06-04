@@ -87,7 +87,6 @@ public class DisbeacApiController implements DisbeacApi {
         ModelMapper mapper = new ModelMapper();
         Disbeac disbeac = mapper.map(disbeacDTO, Disbeac.class);
         disbeac.setId(UUID.randomUUID());
-        disbeac.setDate(System.currentTimeMillis());
         disbeac.setUser(user);
 
         return new ResponseEntity<>(ds.save(disbeac), HttpStatus.CREATED);

@@ -34,6 +34,6 @@ public class Alarm {
     private String repetitionWeekDays;
 
     @ManyToOne
-    @JoinColumn(name = "disband_id_alarms_fk")
+    @JoinColumn(name = "disband_id")
     private Disband disband;
 }

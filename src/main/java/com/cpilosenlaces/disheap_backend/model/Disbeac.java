@@ -36,6 +36,6 @@ public class Disbeac {
     private long date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id_disbeacs_fk")
+    @JoinColumn(name = "user_id")
     private UserModel user;
 }

@@ -18,6 +18,7 @@ public class DisbeacDTO {
     private String model;
     @NotNull
     private String version;
+    private String date;
     @NotNull
     private UUID userId;
 }

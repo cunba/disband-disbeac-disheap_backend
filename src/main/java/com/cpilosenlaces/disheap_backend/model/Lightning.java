@@ -38,6 +38,6 @@ public class Lightning {
     private long date;
 
     @ManyToOne
-    @JoinColumn(name = "disband_id_measures_fk")
+    @JoinColumn(name = "disband_id")
     private Disband disband;
 }

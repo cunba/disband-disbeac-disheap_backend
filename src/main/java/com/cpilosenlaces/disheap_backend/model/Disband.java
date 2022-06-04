@@ -30,12 +30,12 @@ public class Disband {
     private String mac;
     @Column
     private String model;
-    @Column(name = "firmware_version")
-    private String firmwareVersion;
+    @Column
+    private String version;
     @Column
     private long date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id_disbands_fk")
+    @JoinColumn(name = "user_id")
     private UserModel user;
 }

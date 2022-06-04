@@ -17,7 +17,8 @@ public class DisbandDTO {
     @NotNull
     private String model;
     @NotNull
-    private String firmware_version;
+    private String version;
+    private long date;
     @NotNull
     private UUID userId;
 }

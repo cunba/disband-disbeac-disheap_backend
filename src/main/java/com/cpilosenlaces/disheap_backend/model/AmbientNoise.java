@@ -17,7 +17,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity(name = "ambient_noise")
+@Entity(name = "ambient_noises")
 @NoArgsConstructor
 @AllArgsConstructor
 public class AmbientNoise {
@@ -32,6 +32,6 @@ public class AmbientNoise {
     private long date;
 
     @ManyToOne
-    @JoinColumn(name = "disband_id_measures_fk")
+    @JoinColumn(name = "disband_id")
     private Disband disband;
 }

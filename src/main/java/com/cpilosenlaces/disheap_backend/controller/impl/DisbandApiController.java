@@ -88,7 +88,6 @@ public class DisbandApiController implements DisbandApi {
         ModelMapper mapper = new ModelMapper();
         Disband disband = mapper.map(disbandDTO, Disband.class);
         disband.setId(UUID.randomUUID());
-        disband.setDate(System.currentTimeMillis());
         disband.setUser(user);
 
         return new ResponseEntity<>(ds.save(disband), HttpStatus.CREATED);

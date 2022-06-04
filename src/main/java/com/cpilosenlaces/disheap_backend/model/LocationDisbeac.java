@@ -34,6 +34,6 @@ public class LocationDisbeac {
     private long date;
 
     @ManyToOne
-    @JoinColumn(name = "disbeac_id_location_fk")
+    @JoinColumn(name = "disbeac_id")
     private Disbeac disbeac;
 }

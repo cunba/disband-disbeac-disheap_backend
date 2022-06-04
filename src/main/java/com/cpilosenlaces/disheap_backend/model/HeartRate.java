@@ -17,7 +17,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity(name = "heart_rate")
+@Entity(name = "heart_rates")
 @NoArgsConstructor
 @AllArgsConstructor
 public class HeartRate {
@@ -32,6 +32,6 @@ public class HeartRate {
     private long date;
 
     @ManyToOne
-    @JoinColumn(name = "disband_id_measures_fk")
+    @JoinColumn(name = "disband_id")
     private Disband disband;
 }
