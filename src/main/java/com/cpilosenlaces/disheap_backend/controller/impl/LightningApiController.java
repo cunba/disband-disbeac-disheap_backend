@@ -85,10 +85,11 @@ public class LightningApiController implements LightningApi {
     public ResponseEntity<Lightning> save(LightningDTO lightningDTO) throws NotFoundException, BadRequestException {
 
         Disband disband = null;
-        try {
-            disband = ds.findById(lightningDTO.getDisbandId());
-        } catch (NotFoundException nfe) {
-            throw new NotFoundException("Disband with ID " + lightningDTO.getDisbandId() + " does not exists.");
+        List<Disband> disbands = ds.findByMac(lightningDTO.getDisbandMac());
+        if (disbands.size() > 0) {
+            disband = disbands.get(0);
+        } else {
+            throw new NotFoundException("Disband with MAC " + lightningDTO.getDisbandMac() + " does not exists.");
         }
 
         ModelMapper mapper = new ModelMapper();

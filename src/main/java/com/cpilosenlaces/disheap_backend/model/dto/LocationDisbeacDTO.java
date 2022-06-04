@@ -1,7 +1,5 @@
 package com.cpilosenlaces.disheap_backend.model.dto;
 
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +11,5 @@ public class LocationDisbeacDTO {
     private float latitude;
     private float longitude;
     private long date;
-    private UUID disbeacId;
+    private String disbeacMac;
 }

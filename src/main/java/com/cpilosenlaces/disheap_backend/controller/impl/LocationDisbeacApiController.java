@@ -77,10 +77,11 @@ public class LocationDisbeacApiController implements LocationDisbeacApi {
             throws NotFoundException, BadRequestException {
 
         Disbeac disbeac = null;
-        try {
-            disbeac = ds.findById(locationDisbeacDTO.getDisbeacId());
-        } catch (NotFoundException nfe) {
-            throw new NotFoundException("Disbeac with ID " + locationDisbeacDTO.getDisbeacId() + " does not exists.");
+        List<Disbeac> disbeacs = ds.findByMac(locationDisbeacDTO.getDisbeacMac());
+        if (disbeacs.size() > 0) {
+            disbeac = disbeacs.get(0);
+        } else {
+            throw new NotFoundException("Disbeac with MAC " + locationDisbeacDTO.getDisbeacMac() + " does not exists.");
         }
 
         ModelMapper mapper = new ModelMapper();

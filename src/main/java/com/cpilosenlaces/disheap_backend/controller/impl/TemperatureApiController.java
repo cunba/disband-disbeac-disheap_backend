@@ -84,10 +84,11 @@ public class TemperatureApiController implements TemperatureApi {
     public ResponseEntity<Temperature> save(MeasureDTO measureDTO) throws NotFoundException, BadRequestException {
 
         Disband disband = null;
-        try {
-            disband = ds.findById(measureDTO.getDisbandId());
-        } catch (NotFoundException nfe) {
-            throw new NotFoundException("Disband with ID " + measureDTO.getDisbandId() + " does not exists.");
+        List<Disband> disbands = ds.findByMac(measureDTO.getDisbandMac());
+        if (disbands.size() > 0) {
+            disband = disbands.get(0);
+        } else {
+            throw new NotFoundException("Disband with MAC " + measureDTO.getDisbandMac() + " does not exists.");
         }
 
         Temperature temperature = new Temperature();
