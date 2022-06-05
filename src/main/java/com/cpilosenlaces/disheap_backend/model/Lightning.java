@@ -27,13 +27,13 @@ public class Lightning {
     @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
     @Column
-    private float lightning;
+    private int lightning;
     @Column(name = "red_lightning")
-    private float redLightning;
+    private int redLightning;
     @Column(name = "green_lightning")
-    private float greenLightning;
+    private int greenLightning;
     @Column(name = "blue_lightning")
-    private float blueLightning;
+    private int blueLightning;
     @Column
     private long date;
 

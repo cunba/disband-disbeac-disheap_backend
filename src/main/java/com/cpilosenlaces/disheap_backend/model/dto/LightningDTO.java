@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LightningDTO {
-    private float lightning;
-    private float redLightning;
-    private float greenLightning;
-    private float blueLightning;
+    private int lightning;
+    private int redLightning;
+    private int greenLightning;
+    private int blueLightning;
     private long date;
     private String disbandMac;
 }
