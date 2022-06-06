@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,110 +17,98 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.cpilosenlaces.microservice.controller.disheap.EventApi;
+import com.cpilosenlaces.microservice.controller.disheap.SubjectApi;
 import com.cpilosenlaces.microservice.exception.BadRequestException;
 import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
-import com.cpilosenlaces.microservice.model.disheap.Event;
-import com.cpilosenlaces.microservice.model.disheap.UserModel;
-import com.cpilosenlaces.microservice.model.disheap.dto.EventDTO;
+import com.cpilosenlaces.microservice.model.disheap.SchoolYear;
+import com.cpilosenlaces.microservice.model.disheap.Subject;
+import com.cpilosenlaces.microservice.model.disheap.dto.SubjectDTO;
 import com.cpilosenlaces.microservice.model.util.HandledResponse;
-import com.cpilosenlaces.microservice.service.disheap.EventService;
-import com.cpilosenlaces.microservice.service.disheap.UserService;
+import com.cpilosenlaces.microservice.service.disheap.SchoolYearService;
+import com.cpilosenlaces.microservice.service.disheap.SubjectService;
 
 import io.jsonwebtoken.security.SignatureException;
 
 @Controller
-public class EventApiController implements EventApi {
+public class SubjectApiController implements SubjectApi {
 
     @Autowired
-    private EventService es;
+    private SubjectService ss;
     @Autowired
-    private UserService us;
+    private SchoolYearService sys;
 
     @Override
-    public ResponseEntity<Event> getById(UUID id) throws NotFoundException {
+    public ResponseEntity<Subject> getById(UUID id) throws NotFoundException {
         try {
-            return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
+            return new ResponseEntity<>(ss.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Event with ID " + id + " does not exists.");
+            throw new NotFoundException("Subject with ID " + id + " does not exists.");
         }
     }
 
     @Override
-    public ResponseEntity<List<Event>> getByDateBetweenAndUserId(long minDate, long maxDate, UUID userId) {
-
-        long changerDate = System.currentTimeMillis();
-        if (minDate > maxDate) {
-            changerDate = minDate;
-            minDate = maxDate;
-            maxDate = changerDate;
-        }
-
-        return new ResponseEntity<>(es.findByStartDateBetweenAndUserId(minDate, maxDate, userId), HttpStatus.OK);
+    public ResponseEntity<List<Subject>> getBySchoolYearId(UUID schoolYearId) {
+        return new ResponseEntity<>(ss.findBySchoolYearId(schoolYearId), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Event>> getByTypeAndUserId(String type, UUID userId) {
-        return new ResponseEntity<>(es.findByTypeAndUserId(type, userId), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<Event>> getByUserId(UUID userId) {
-        return new ResponseEntity<>(es.findByUserId(userId), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Event> save(EventDTO eventDTO) throws NotFoundException {
-        UserModel user = null;
+    public ResponseEntity<Subject> save(SubjectDTO subjectDTO) throws NotFoundException {
+        SchoolYear schoolYear = null;
         try {
-            user = us.findById(eventDTO.getUserId());
+            schoolYear = sys.findById(subjectDTO.getSchoolYearId());
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("User with ID " + eventDTO.getUserId() + " does not exists.");
+            throw new NotFoundException("School year with ID " + subjectDTO.getSchoolYearId() + " does not exists.");
         }
 
-        ModelMapper mapper = new ModelMapper();
-        Event event = mapper.map(eventDTO, Event.class);
-        event.setId(UUID.randomUUID());
-        event.setUser(user);
+        Subject subject = new Subject();
+        subject.setId(UUID.randomUUID());
+        subject.setName(subjectDTO.getName());
+        subject.setSchoolYear(schoolYear);
 
-        return new ResponseEntity<>(es.save(event), HttpStatus.CREATED);
+        return new ResponseEntity<>(ss.save(subject), HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<HandledResponse> update(UUID id, EventDTO eventDTO) throws NotFoundException {
-        Event event = null;
+    public ResponseEntity<HandledResponse> update(UUID id, SubjectDTO subjectDTO) throws NotFoundException {
+        SchoolYear schoolYear = null;
         try {
-            event = es.findById(id);
+            schoolYear = sys.findById(subjectDTO.getSchoolYearId());
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Event with ID " + id + " does not exists.");
+            throw new NotFoundException("School year with ID " + subjectDTO.getSchoolYearId() + " does not exists.");
         }
 
-        event.setEndDate(eventDTO.getEndDate());
-        event.setName(eventDTO.getName());
-        event.setNote(eventDTO.getNotes());
-        event.setStartDate(eventDTO.getStartDate());
-        event.setType(eventDTO.getType());
+        Subject subject = null;
+        try {
+            subject = ss.findById(id);
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("Subject with ID " + id + " does not exists.");
+        }
 
-        es.save(event);
+        subject.setName(subjectDTO.getName());
+        subject.setSchoolYear(schoolYear);
 
-        return new ResponseEntity<>(new HandledResponse("Event updated", 1), HttpStatus.OK);
+        ss.save(subject);
+
+        return new ResponseEntity<>(new HandledResponse("Subject updated.", 1), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Event> delete(UUID id) throws NotFoundException {
-        Event event = es.findById(id);
-        es.delete(event);
-
-        return new ResponseEntity<>(event, HttpStatus.OK);
+    public ResponseEntity<Subject> delete(UUID id) throws NotFoundException {
+        try {
+            Subject subject = ss.findById(id);
+            ss.delete(subject);
+            return new ResponseEntity<>(subject, HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("Subject with ID " + id + " does not exists.");
+        }
     }
 
     @Override
-    public ResponseEntity<List<Event>> deleteByUserId(UUID userId) {
-        List<Event> events = es.findByUserId(userId);
-        es.deleteByUserId(events);
-
-        return new ResponseEntity<>(events, HttpStatus.OK);
+    public ResponseEntity<List<Subject>> deleteBySchoolYearId(UUID schoolYearId) {
+        List<Subject> subjects = ss.findBySchoolYearId(schoolYearId);
+        ss.deleteBySchoolYearId(subjects);
+        return new ResponseEntity<>(subjects, HttpStatus.OK);
     }
 
     @ExceptionHandler(AccessDeniedException.class)

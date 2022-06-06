@@ -38,8 +38,8 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void deleteAll() {
-        sr.deleteAll();
+    public void deleteBySchoolYearId(List<Subject> subjects) {
+        sr.deleteAll(subjects);
     }
 
 }

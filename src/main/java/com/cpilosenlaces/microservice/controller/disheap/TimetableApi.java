@@ -109,7 +109,7 @@ public interface TimetableApi {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @DeleteMapping("/users/{UserId}")
+    @DeleteMapping("/users/{userId}")
     public ResponseEntity<List<Timetable>> deleteByUserId(
             @Parameter(description = "User ID", required = true) @PathVariable UUID userId);
 

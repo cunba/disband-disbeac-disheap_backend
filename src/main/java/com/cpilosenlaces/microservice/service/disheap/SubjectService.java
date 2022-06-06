@@ -15,5 +15,5 @@ public interface SubjectService {
 
     void delete(Subject subject);
 
-    void deleteAll();
+    void deleteBySchoolYearId(List<Subject> subjects);
 }

@@ -18,110 +18,129 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.cpilosenlaces.microservice.controller.disheap.EventApi;
+import com.cpilosenlaces.microservice.controller.disheap.HomeworkApi;
 import com.cpilosenlaces.microservice.exception.BadRequestException;
 import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
-import com.cpilosenlaces.microservice.model.disheap.Event;
+import com.cpilosenlaces.microservice.model.disheap.Homework;
+import com.cpilosenlaces.microservice.model.disheap.Subject;
 import com.cpilosenlaces.microservice.model.disheap.UserModel;
-import com.cpilosenlaces.microservice.model.disheap.dto.EventDTO;
+import com.cpilosenlaces.microservice.model.disheap.dto.HomeworkDTO;
 import com.cpilosenlaces.microservice.model.util.HandledResponse;
-import com.cpilosenlaces.microservice.service.disheap.EventService;
+import com.cpilosenlaces.microservice.service.disheap.HomeworkService;
+import com.cpilosenlaces.microservice.service.disheap.SubjectService;
 import com.cpilosenlaces.microservice.service.disheap.UserService;
 
 import io.jsonwebtoken.security.SignatureException;
 
 @Controller
-public class EventApiController implements EventApi {
+public class HomeworkApiController implements HomeworkApi {
 
     @Autowired
-    private EventService es;
+    private HomeworkService hs;
     @Autowired
     private UserService us;
+    @Autowired
+    private SubjectService ss;
 
     @Override
-    public ResponseEntity<Event> getById(UUID id) throws NotFoundException {
+    public ResponseEntity<Homework> getById(UUID id) throws NotFoundException {
         try {
-            return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
+            return new ResponseEntity<>(hs.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Event with ID " + id + " does not exists.");
+            throw new NotFoundException("Homework with ID " + id + " does not exists.");
         }
     }
 
     @Override
-    public ResponseEntity<List<Event>> getByDateBetweenAndUserId(long minDate, long maxDate, UUID userId) {
-
-        long changerDate = System.currentTimeMillis();
-        if (minDate > maxDate) {
-            changerDate = minDate;
-            minDate = maxDate;
-            maxDate = changerDate;
-        }
-
-        return new ResponseEntity<>(es.findByStartDateBetweenAndUserId(minDate, maxDate, userId), HttpStatus.OK);
+    public ResponseEntity<List<Homework>> findByDeadlineBetweenAndUserId(long minDate, long maxDate, UUID userId) {
+        return new ResponseEntity<>(hs.findByDeadlineBetweenAndUserId(minDate, maxDate, userId), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Event>> getByTypeAndUserId(String type, UUID userId) {
-        return new ResponseEntity<>(es.findByTypeAndUserId(type, userId), HttpStatus.OK);
+    public ResponseEntity<List<Homework>> findByDeadlineBetweenAndSubjectIdAndUserId(long minDate, long maxDate,
+            UUID subjectId, UUID userId) {
+
+        return new ResponseEntity<>(hs.findByDeadlineBetweenAndSubjectIdAndUserId(minDate, maxDate, subjectId, userId),
+                HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Event>> getByUserId(UUID userId) {
-        return new ResponseEntity<>(es.findByUserId(userId), HttpStatus.OK);
+    public ResponseEntity<List<Homework>> getByUserId(UUID userId) {
+        return new ResponseEntity<>(hs.findByUserId(userId), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Event> save(EventDTO eventDTO) throws NotFoundException {
+    public ResponseEntity<Homework> save(HomeworkDTO homeworkDTO) throws NotFoundException {
         UserModel user = null;
         try {
-            user = us.findById(eventDTO.getUserId());
+            user = us.findById(homeworkDTO.getUserId());
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("User with ID " + eventDTO.getUserId() + " does not exists.");
+            throw new NotFoundException("User with ID " + homeworkDTO.getUserId() + " does not exists.");
+        }
+
+        Subject subject = null;
+        try {
+            subject = ss.findById(homeworkDTO.getSubjectId());
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("Subject with ID " + homeworkDTO.getSubjectId() + " does not exists.");
         }
 
         ModelMapper mapper = new ModelMapper();
-        Event event = mapper.map(eventDTO, Event.class);
-        event.setId(UUID.randomUUID());
-        event.setUser(user);
+        Homework homework = mapper.map(homeworkDTO, Homework.class);
+        homework.setId(UUID.randomUUID());
+        homework.setSubject(subject);
+        homework.setUser(user);
 
-        return new ResponseEntity<>(es.save(event), HttpStatus.CREATED);
+        return new ResponseEntity<>(hs.save(homework), HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<HandledResponse> update(UUID id, EventDTO eventDTO) throws NotFoundException {
-        Event event = null;
+    public ResponseEntity<HandledResponse> update(UUID id, HomeworkDTO homeworkDTO) throws NotFoundException {
+        UserModel user = null;
         try {
-            event = es.findById(id);
+            user = us.findById(homeworkDTO.getUserId());
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Event with ID " + id + " does not exists.");
+            throw new NotFoundException("User with ID " + homeworkDTO.getUserId() + " does not exists.");
         }
 
-        event.setEndDate(eventDTO.getEndDate());
-        event.setName(eventDTO.getName());
-        event.setNote(eventDTO.getNotes());
-        event.setStartDate(eventDTO.getStartDate());
-        event.setType(eventDTO.getType());
+        Subject subject = null;
+        try {
+            subject = ss.findById(homeworkDTO.getSubjectId());
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("Subject with ID " + homeworkDTO.getSubjectId() + " does not exists.");
+        }
 
-        es.save(event);
+        Homework homework = null;
+        try {
+            homework = hs.findById(id);
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("Homework with ID " + id + " does not exists.");
+        }
 
-        return new ResponseEntity<>(new HandledResponse("Event updated", 1), HttpStatus.OK);
+        homework.setDeadline(homeworkDTO.getDeadline());
+        homework.setDescription(homeworkDTO.getDescription());
+        homework.setName(homeworkDTO.getName());
+        homework.setSubject(subject);
+        homework.setUser(user);
+
+        hs.save(homework);
+
+        return new ResponseEntity<>(new HandledResponse("Homework updated.", 1), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Event> delete(UUID id) throws NotFoundException {
-        Event event = es.findById(id);
-        es.delete(event);
-
-        return new ResponseEntity<>(event, HttpStatus.OK);
+    public ResponseEntity<Homework> delete(UUID id) throws NotFoundException {
+        Homework homework = hs.findById(id);
+        hs.delete(homework);
+        return new ResponseEntity<>(homework, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Event>> deleteByUserId(UUID userId) {
-        List<Event> events = es.findByUserId(userId);
-        es.deleteByUserId(events);
-
-        return new ResponseEntity<>(events, HttpStatus.OK);
+    public ResponseEntity<List<Homework>> deleteByUserId(UUID userId) {
+        List<Homework> homeworks = hs.findByUserId(userId);
+        hs.deleteByUserId(homeworks);
+        return new ResponseEntity<>(homeworks, HttpStatus.OK);
     }
 
     @ExceptionHandler(AccessDeniedException.class)

@@ -18,110 +18,74 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.cpilosenlaces.microservice.controller.disheap.EventApi;
+import com.cpilosenlaces.microservice.controller.disheap.DisorderApi;
 import com.cpilosenlaces.microservice.exception.BadRequestException;
 import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
-import com.cpilosenlaces.microservice.model.disheap.Event;
-import com.cpilosenlaces.microservice.model.disheap.UserModel;
-import com.cpilosenlaces.microservice.model.disheap.dto.EventDTO;
+import com.cpilosenlaces.microservice.model.disheap.Disorder;
+import com.cpilosenlaces.microservice.model.disheap.dto.DisorderDTO;
 import com.cpilosenlaces.microservice.model.util.HandledResponse;
-import com.cpilosenlaces.microservice.service.disheap.EventService;
-import com.cpilosenlaces.microservice.service.disheap.UserService;
+import com.cpilosenlaces.microservice.service.disheap.DisorderService;
 
 import io.jsonwebtoken.security.SignatureException;
 
 @Controller
-public class EventApiController implements EventApi {
+public class DisorderApiController implements DisorderApi {
 
     @Autowired
-    private EventService es;
-    @Autowired
-    private UserService us;
+    private DisorderService ds;
 
     @Override
-    public ResponseEntity<Event> getById(UUID id) throws NotFoundException {
+    public ResponseEntity<Disorder> getById(UUID id) throws NotFoundException {
         try {
-            return new ResponseEntity<>(es.findById(id), HttpStatus.OK);
+            return new ResponseEntity<>(ds.findById(id), HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Event with ID " + id + " does not exists.");
+            throw new NotFoundException("Disorder with ID " + id + " does not exists.");
         }
     }
 
     @Override
-    public ResponseEntity<List<Event>> getByDateBetweenAndUserId(long minDate, long maxDate, UUID userId) {
-
-        long changerDate = System.currentTimeMillis();
-        if (minDate > maxDate) {
-            changerDate = minDate;
-            minDate = maxDate;
-            maxDate = changerDate;
-        }
-
-        return new ResponseEntity<>(es.findByStartDateBetweenAndUserId(minDate, maxDate, userId), HttpStatus.OK);
+    public ResponseEntity<List<Disorder>> getAll() {
+        return new ResponseEntity<>(ds.findAll(), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Event>> getByTypeAndUserId(String type, UUID userId) {
-        return new ResponseEntity<>(es.findByTypeAndUserId(type, userId), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<Event>> getByUserId(UUID userId) {
-        return new ResponseEntity<>(es.findByUserId(userId), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Event> save(EventDTO eventDTO) throws NotFoundException {
-        UserModel user = null;
-        try {
-            user = us.findById(eventDTO.getUserId());
-        } catch (NotFoundException nfe) {
-            throw new NotFoundException("User with ID " + eventDTO.getUserId() + " does not exists.");
-        }
-
+    public ResponseEntity<Disorder> save(DisorderDTO disorderDTO) throws NotFoundException {
         ModelMapper mapper = new ModelMapper();
-        Event event = mapper.map(eventDTO, Event.class);
-        event.setId(UUID.randomUUID());
-        event.setUser(user);
-
-        return new ResponseEntity<>(es.save(event), HttpStatus.CREATED);
+        Disorder disorder = mapper.map(disorderDTO, Disorder.class);
+        disorder.setId(UUID.randomUUID());
+        return new ResponseEntity<>(ds.save(disorder), HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<HandledResponse> update(UUID id, EventDTO eventDTO) throws NotFoundException {
-        Event event = null;
+    public ResponseEntity<HandledResponse> update(UUID id, DisorderDTO disorderDTO) throws NotFoundException {
         try {
-            event = es.findById(id);
+            Disorder disorder = ds.findById(id);
+            disorder.setName(disorderDTO.getName());
+            disorder.setObservations(disorderDTO.getObservations());
+            ds.save(disorder);
+            return new ResponseEntity<>(new HandledResponse("Disorder updated.", 1), HttpStatus.OK);
         } catch (NotFoundException nfe) {
-            throw new NotFoundException("Event with ID " + id + " does not exists.");
+            throw new NotFoundException("Disorder with ID " + id + " does not exists.");
         }
-
-        event.setEndDate(eventDTO.getEndDate());
-        event.setName(eventDTO.getName());
-        event.setNote(eventDTO.getNotes());
-        event.setStartDate(eventDTO.getStartDate());
-        event.setType(eventDTO.getType());
-
-        es.save(event);
-
-        return new ResponseEntity<>(new HandledResponse("Event updated", 1), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Event> delete(UUID id) throws NotFoundException {
-        Event event = es.findById(id);
-        es.delete(event);
-
-        return new ResponseEntity<>(event, HttpStatus.OK);
+    public ResponseEntity<Disorder> delete(UUID id) throws NotFoundException {
+        try {
+            Disorder disorder = ds.findById(id);
+            ds.delete(disorder);
+            return new ResponseEntity<>(disorder, HttpStatus.OK);
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException("Disorder with ID " + id + " does not exists.");
+        }
     }
 
     @Override
-    public ResponseEntity<List<Event>> deleteByUserId(UUID userId) {
-        List<Event> events = es.findByUserId(userId);
-        es.deleteByUserId(events);
-
-        return new ResponseEntity<>(events, HttpStatus.OK);
+    public ResponseEntity<List<Disorder>> deleteAll() {
+        List<Disorder> disorders = ds.findAll();
+        ds.deleteAll();
+        return new ResponseEntity<>(disorders, HttpStatus.OK);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -202,5 +166,5 @@ public class EventApiController implements EventApi {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
+    
 }

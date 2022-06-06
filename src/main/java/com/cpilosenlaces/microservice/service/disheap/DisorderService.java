@@ -13,5 +13,7 @@ public interface DisorderService {
 
     Disorder save(Disorder disorder);
 
+    void delete(Disorder disorder);
+
     void deleteAll();
 }

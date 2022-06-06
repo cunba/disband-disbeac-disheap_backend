@@ -75,6 +75,7 @@ public class TimetableApiController implements TimetableApi {
 
         ModelMapper mapper = new ModelMapper();
         Timetable timetable = mapper.map(timetableDTO, Timetable.class);
+        timetable.setId(UUID.randomUUID());
         timetable.setUser(user);
         timetable.setSubject(subject);
 

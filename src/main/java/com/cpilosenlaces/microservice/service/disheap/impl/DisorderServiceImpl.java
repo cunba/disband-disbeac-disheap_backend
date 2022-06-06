@@ -33,6 +33,11 @@ public class DisorderServiceImpl implements DisorderService {
     }
 
     @Override
+    public void delete(Disorder disorder) {
+        dr.delete(disorder);
+    }
+
+    @Override
     public void deleteAll() {
         dr.deleteAll();
     }
