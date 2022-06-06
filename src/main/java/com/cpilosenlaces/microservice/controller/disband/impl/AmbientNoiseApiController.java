@@ -34,6 +34,11 @@ public class AmbientNoiseApiController implements AmbientNoiseApi {
     private DisbandService ds;
 
     @Override
+    public ResponseEntity<AmbientNoise> getLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return new ResponseEntity<>(ans.findLast1ByDisbandId(minDate, maxDate, disbandId), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<List<AmbientNoise>> getAll() {
         return new ResponseEntity<>(ans.findAll(), HttpStatus.OK);
     }

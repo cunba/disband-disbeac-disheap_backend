@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @ComponentScan
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "disbandEntityManagerFactory", transactionManagerRef = "disbandTransactionManagerRef", basePackages = {
+@EnableJpaRepositories(entityManagerFactoryRef = "disbandEntityManagerFactory", transactionManagerRef = "disbandTransactionManager", basePackages = {
         "com.cpilosenlaces.microservice.repository.disband" })
 public class DisbandConfig {
 

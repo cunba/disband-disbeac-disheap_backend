@@ -7,6 +7,8 @@ import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Lightning;
 
 public interface LightningService {
+    Lightning findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId);
+
     List<Lightning> findByDisbandId(UUID disbandId);
 
     List<Lightning> findByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);

@@ -35,6 +35,11 @@ public class LightningApiController implements LightningApi {
     private DisbandService ds;
 
     @Override
+    public ResponseEntity<Lightning> getLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return new ResponseEntity<>(ls.findLast1ByDisbandId(minDate, maxDate, disbandId), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<List<Lightning>> getAll() {
         return new ResponseEntity<>(ls.findAll(), HttpStatus.OK);
     }

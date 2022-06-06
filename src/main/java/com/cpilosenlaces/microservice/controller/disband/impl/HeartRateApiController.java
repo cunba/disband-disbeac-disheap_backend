@@ -34,6 +34,11 @@ public class HeartRateApiController implements HeartRateApi {
     private DisbandService ds;
 
     @Override
+    public ResponseEntity<HeartRate> getLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return new ResponseEntity<>(hrs.findLast1ByDisbandId(minDate, maxDate, disbandId), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<List<HeartRate>> getAll() {
         return new ResponseEntity<>(hrs.findAll(), HttpStatus.OK);
     }

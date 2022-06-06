@@ -19,6 +19,11 @@ public class PressureServiceImpl implements PressureService {
     private PressureRepository pr;
 
     @Override
+    public Pressure findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return pr.findLast1ByDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
+    }
+
+    @Override
     public List<Pressure> findByDisbandId(UUID disbandId) {
         return pr.findByDisbandIdOrderByDateDesc(disbandId);
     }

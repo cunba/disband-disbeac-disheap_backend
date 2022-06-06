@@ -7,8 +7,7 @@ import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disbeac.Location;
 
 public interface LocationService {
-    
-    List<Location> findLast1ByDisbeacId(UUID disbeacId);
+    Location findLast1ByDisbeacId(long minDate, long maxDate, UUID disbeacId);
 
     List<Location> findByDateBetweenAndDisbeacId(long minDate, long maxDate, UUID disbeacId);
 

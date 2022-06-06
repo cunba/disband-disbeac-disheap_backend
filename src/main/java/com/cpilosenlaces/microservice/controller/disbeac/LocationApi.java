@@ -49,7 +49,9 @@ public interface LocationApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/last/disbeacId/{disbeacId}")
-    ResponseEntity<List<Location>> getLast1ByDisbeacId(
+    ResponseEntity<Location> getLast1ByDisbeacId(
+            @Parameter(description = "Min date", required = true) @RequestParam(value = "min date") long minDate,
+            @Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID disbeacId);
 
     @Operation(summary = "Get location by date between and disbeac ID", operationId = "getLocationByDateBetweenAndDisbeacId")

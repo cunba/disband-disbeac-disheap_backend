@@ -4,14 +4,15 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cpilosenlaces.microservice.model.disbeac.Location;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, UUID> {
-
-    List<Location> findLast1ByDisbeacIdOrderByDateDesc(UUID disbeacId);
+    @Query(value = "SELECT * FROM locations WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY date DESC LIMIT 1", nativeQuery = true)
+    Location findLast1ByDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
 
     List<Location> findByDateBetweenAndDisbeacIdOrderByDateDesc(long minDate, long maxDate, UUID disbeacId);
 

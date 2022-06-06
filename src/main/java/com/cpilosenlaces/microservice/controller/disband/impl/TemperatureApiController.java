@@ -34,6 +34,11 @@ public class TemperatureApiController implements TemperatureApi {
     private DisbandService ds;
 
     @Override
+    public ResponseEntity<Temperature> getLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return new ResponseEntity<>(ts.findLast1ByDisbandId(minDate, maxDate, disbandId), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<List<Temperature>> getAll() {
         return new ResponseEntity<>(ts.findAll(), HttpStatus.OK);
     }

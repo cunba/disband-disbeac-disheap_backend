@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @ComponentScan
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "disheapEntityManagerFactory", transactionManagerRef = "disheapTransactionManagerRef", basePackages = {
+@EnableJpaRepositories(entityManagerFactoryRef = "disheapEntityManagerFactory", transactionManagerRef = "disheapTransactionManager", basePackages = {
         "com.cpilosenlaces.microservice.repository.disheap" })
 public class DisheapConfig {
 

@@ -49,9 +49,9 @@ public class UserModel {
     private String role;
 
     @ManyToOne
-    @JoinColumn(name = "disorder_id")
+    @JoinColumn(name = "disorder_id", nullable = true)
     private Disorder disorder;
     @ManyToOne
-    @JoinColumn(name = "school_year_id")
+    @JoinColumn(name = "school_year_id", nullable = true)
     private SchoolYear schoolYear;
 }

@@ -19,6 +19,11 @@ public class OxygenServiceImpl implements OxygenService {
     private OxygenRepository or;
 
     @Override
+    public Oxygen findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return or.findLast1ByDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
+    }
+
+    @Override
     public List<Oxygen> findByDisbandId(UUID disbandId) {
         return or.findByDisbandIdOrderByDateDesc(disbandId);
     }

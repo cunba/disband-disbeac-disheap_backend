@@ -34,6 +34,11 @@ public class PressureApiController implements PressureApi {
     private DisbandService ds;
 
     @Override
+    public ResponseEntity<Pressure> getLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return new ResponseEntity<>(ps.findLast1ByDisbandId(minDate, maxDate, disbandId), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<List<Pressure>> getAll() {
         return new ResponseEntity<>(ps.findAll(), HttpStatus.OK);
     }

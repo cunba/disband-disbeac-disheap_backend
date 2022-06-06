@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @ComponentScan
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "disbeacEntityManagerFactory", transactionManagerRef = "disbeacTransactionManagerRef", basePackages = {
+@EnableJpaRepositories(entityManagerFactoryRef = "disbeacEntityManagerFactory", transactionManagerRef = "disbeacTransactionManager", basePackages = {
         "com.cpilosenlaces.microservice.repository.disbeac" })
 public class DisbeacConfig {
 
