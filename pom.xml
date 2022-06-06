@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cpilosenlaces</groupId>
-	<artifactId>disheap_backend</artifactId>
+	<artifactId>microservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>disheap_backend</name>
+	<name>microservice</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>

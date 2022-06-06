@@ -16,13 +16,29 @@ public class SwaggerDocumentationConfig {
 
     private final String DESCRIPTION = "Disheap API connection to Disbands and Disbeacs information";
 
-    private final String BASE_PACKAGE = "com.cpilosenlaces";
+    private final String BASE_PACKAGE = "com.cpilosenlaces.microservice.controller";
 
     @Bean
-    public GroupedOpenApi customImplementation() {
+    public GroupedOpenApi disheapOpenApi() {
         return GroupedOpenApi.builder()
                 .group("DisheapApi")
-                .packagesToScan(BASE_PACKAGE)
+                .packagesToScan(BASE_PACKAGE + ".disheap")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi disbandOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("DisbandApi")
+                .packagesToScan(BASE_PACKAGE + ".disband")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi disbeacOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("DisbeacApi")
+                .packagesToScan(BASE_PACKAGE + ".disbeac")
                 .build();
     }
 
@@ -34,17 +50,5 @@ public class SwaggerDocumentationConfig {
                         .version("v0.0.1")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org"))
                         .contact(new Contact().name("Irene Cunto").email("ire.cunba@gmail.com")));
-                // .externalDocs(new ExternalDocumentation()
-                // .description("Disheap API connection to Disbands and Disbeacs information")
-                // .url("https://springshop.wiki.github.org/docs"))
-                // .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
-                // .components(
-                //         new Components()
-                //                 .addSecuritySchemes(SECURITY_SCHEME_NAME,
-                //                         new SecurityScheme()
-                //                                 .name(SECURITY_SCHEME_NAME)
-                //                                 .type(SecurityScheme.Type.HTTP)
-                //                                 .scheme("bearer")
-                //                                 .bearerFormat("JWT")));
     }
 }

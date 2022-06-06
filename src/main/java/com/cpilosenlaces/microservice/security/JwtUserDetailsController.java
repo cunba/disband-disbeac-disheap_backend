@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.cpilosenlaces.microservice.model.UserModel;
-import com.cpilosenlaces.microservice.service.UserService;
+import com.cpilosenlaces.microservice.model.disheap.UserModel;
+import com.cpilosenlaces.microservice.service.disheap.UserService;
 
 @Service
 public class JwtUserDetailsController implements UserDetailsService {
