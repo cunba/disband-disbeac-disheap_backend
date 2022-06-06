@@ -64,6 +64,7 @@ public interface SchoolYearApi {
     @GetMapping
     public ResponseEntity<List<SchoolYear>> getAll();
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Save school year", operationId = "saveSchoolYear")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "CREATED"),
@@ -76,6 +77,7 @@ public interface SchoolYearApi {
             @Parameter(description = "School year object", required = true) @RequestBody SchoolYearDTO schoolYearDTO)
             throws NotFoundException;
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Update school year", operationId = "updateSchoolYear")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = String.class))),
@@ -90,6 +92,7 @@ public interface SchoolYearApi {
             @Parameter(description = "School year object", required = true) @RequestBody SchoolYearDTO schoolYearDTO)
             throws NotFoundException;
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Delete school year", operationId = "deleteSchoolYear")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),

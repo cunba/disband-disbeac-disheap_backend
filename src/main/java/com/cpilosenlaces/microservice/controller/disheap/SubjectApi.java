@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,6 +66,7 @@ public interface SubjectApi {
     public ResponseEntity<List<Subject>> getBySchoolYearId(
             @Parameter(description = "School year ID", required = true) @PathVariable UUID schoolYearId);
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Save subject", operationId = "saveSubject")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "CREATED"),
@@ -77,6 +79,7 @@ public interface SubjectApi {
             @Parameter(description = "Subject object", required = true) @RequestBody SubjectDTO subjectDTO)
             throws NotFoundException;
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Update subject", operationId = "updateSubject")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = String.class))),
@@ -91,6 +94,7 @@ public interface SubjectApi {
             @Parameter(description = "Subject object", required = true) @RequestBody SubjectDTO subjectDTO)
             throws NotFoundException;
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Delete subject", operationId = "deleteSubject")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -103,6 +107,7 @@ public interface SubjectApi {
             @Parameter(description = "Subject ID", required = true) @PathVariable UUID id)
             throws NotFoundException;
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Delete subjects by school year ID", operationId = "deleteSubjectsBySchoolYearId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),

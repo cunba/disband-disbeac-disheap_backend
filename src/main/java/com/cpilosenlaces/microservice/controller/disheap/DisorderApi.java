@@ -64,6 +64,7 @@ public interface DisorderApi {
     @GetMapping
     public ResponseEntity<List<Disorder>> getAll();
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Save disorder", operationId = "saveDisorder")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "CREATED"),
@@ -76,6 +77,7 @@ public interface DisorderApi {
             @Parameter(description = "Disorder object", required = true) @RequestBody DisorderDTO disorderDTO)
             throws NotFoundException;
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Update disorder", operationId = "updateDisorder")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = String.class))),
@@ -90,6 +92,7 @@ public interface DisorderApi {
             @Parameter(description = "Disorder object", required = true) @RequestBody DisorderDTO disorderDTO)
             throws NotFoundException;
 
+    @Secured({ "ROLE_ADMIN" })
     @Operation(summary = "Delete disorder", operationId = "deleteDisorder")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
