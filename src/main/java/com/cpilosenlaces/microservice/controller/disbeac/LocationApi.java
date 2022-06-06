@@ -33,10 +33,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Locations disbeacs", description = "Location disbeac API")
+@Tag(name = "Locations", description = "Location API")
 @Validated
 @RestController
-@RequestMapping(value = "/locations-disbeacs", produces = { MediaType.APPLICATION_JSON_VALUE })
+@RequestMapping(value = "/locations", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
 @SecurityRequirements
 @SecurityRequirement(name = "bearer")
@@ -75,7 +75,7 @@ public interface LocationApi {
     ResponseEntity<List<Location>> getByDisbeacId(
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID disbeacId);
 
-    @Operation(summary = "Get location disbeac by ID", operationId = "getLocationById")
+    @Operation(summary = "Get location by ID", operationId = "getLocationById")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
