@@ -33,5 +33,5 @@ public class Disbeac {
     @Column
     private long date;
     @Column
-    private UUID userId;
+    private UUID user_id;
 }
