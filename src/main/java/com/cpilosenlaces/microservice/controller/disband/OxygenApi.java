@@ -42,7 +42,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface OxygenApi {
 
-	@Operation(summary = "Get last oxygen by disband ID", operationId = "getLast1ByDateBetweenAndDisbandId")
+	@Operation(summary = "Get last oxygen by disband ID", operationId = "getLast1OxygenByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -54,7 +54,7 @@ public interface OxygenApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@Operation(summary = "Get all oxygens", operationId = "getAllOxygen")
+	@Operation(summary = "Get all oxygens", operationId = "getAllOxygens")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -63,7 +63,7 @@ public interface OxygenApi {
 	@GetMapping
 	public ResponseEntity<List<Oxygen>> getAll();
 
-	@Operation(summary = "Get oxygen by ID", operationId = "getById")
+	@Operation(summary = "Get oxygen by ID", operationId = "getOxygenById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

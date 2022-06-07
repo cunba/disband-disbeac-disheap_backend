@@ -46,8 +46,9 @@ public class DisbeacApiController implements DisbeacApi {
     }
 
     @Override
-    public ResponseEntity<List<Disbeac>> getByMac(String mac) {
-        return new ResponseEntity<>(ds.findByMac(mac), HttpStatus.OK);
+    public ResponseEntity<Disbeac> getByMac(String mac) {
+        List<Disbeac> disbeac = ds.findByMac(mac);
+        return new ResponseEntity<>(disbeac.get(0), HttpStatus.OK);
     }
 
     @Override

@@ -42,7 +42,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface LocationApi {
 
-    @Operation(summary = "Get last location by disbeac ID", operationId = "getLast1ByDateBetweenAndDisbeacId")
+    @Operation(summary = "Get last location by disbeac ID", operationId = "getLast1LocationByDateBetweenAndDisbeacId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -54,7 +54,7 @@ public interface LocationApi {
             @Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID disbeacId);
 
-    @Operation(summary = "Get location by date between and disbeac ID", operationId = "getLocationByDateBetweenAndDisbeacId")
+    @Operation(summary = "Get location by date between and disbeac ID", operationId = "getLocationsByDateBetweenAndDisbeacId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -67,7 +67,7 @@ public interface LocationApi {
             @Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID disbeacId);
 
-    @Operation(summary = "Get location by disbeac ID", operationId = "getLocationByDisbeacId")
+    @Operation(summary = "Get location by disbeac ID", operationId = "getLocationsByDisbeacId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -89,7 +89,7 @@ public interface LocationApi {
             @Parameter(description = "Disbeac ID", required = true) @PathVariable UUID id)
             throws NotFoundException;
 
-    @Operation(summary = "Get all locations", operationId = "getAllLocation")
+    @Operation(summary = "Get all locations", operationId = "getAllLocations")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -121,7 +121,7 @@ public interface LocationApi {
             @Parameter(description = "Location ID", required = true) @PathVariable UUID id)
             throws NotFoundException;
 
-    @Operation(summary = "Delete all locations by disbeac ID", operationId = "deleteByDisbeacId")
+    @Operation(summary = "Delete all locations by disbeac ID", operationId = "deleteLocationsByDisbeacId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

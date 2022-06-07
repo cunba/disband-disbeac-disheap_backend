@@ -42,7 +42,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface AmbientNoiseApi {
 
-	@Operation(summary = "Get last ambient noise by disband ID", operationId = "getLast1ByDateBetweenAndDisbandId")
+	@Operation(summary = "Get last ambient noise by disband ID", operationId = "getLast1AmbientNoiseByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -54,7 +54,7 @@ public interface AmbientNoiseApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@Operation(summary = "Get all ambient noises", operationId = "getAllAmbientNoise")
+	@Operation(summary = "Get all ambient noises", operationId = "getAllAmbientNoises")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -63,7 +63,7 @@ public interface AmbientNoiseApi {
 	@GetMapping
 	public ResponseEntity<List<AmbientNoise>> getAll();
 
-	@Operation(summary = "Get ambient noise by ID", operationId = "getById")
+	@Operation(summary = "Get ambient noise by ID", operationId = "getAmbientNoiseById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

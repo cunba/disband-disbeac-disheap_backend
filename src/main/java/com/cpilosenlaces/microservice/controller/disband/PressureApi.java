@@ -42,7 +42,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface PressureApi {
 
-	@Operation(summary = "Get last pressure by disband ID", operationId = "getLast1ByDateBetweenAndDisbandId")
+	@Operation(summary = "Get last pressure by disband ID", operationId = "getLast1PressureByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -54,7 +54,7 @@ public interface PressureApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@Operation(summary = "Get all pressures", operationId = "getAllPressure")
+	@Operation(summary = "Get all pressures", operationId = "getAllPressures")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -63,7 +63,7 @@ public interface PressureApi {
 	@GetMapping
 	public ResponseEntity<List<Pressure>> getAll();
 
-	@Operation(summary = "Get pressure by ID", operationId = "getById")
+	@Operation(summary = "Get pressure by ID", operationId = "getPressureById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

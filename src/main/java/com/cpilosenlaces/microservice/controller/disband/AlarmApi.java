@@ -44,7 +44,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface AlarmApi {
 
-    @Operation(summary = "Get alarm by ID", operationId = "getById")
+    @Operation(summary = "Get alarm by ID", operationId = "getAlarmById")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

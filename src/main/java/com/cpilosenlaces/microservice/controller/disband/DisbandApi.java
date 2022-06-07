@@ -43,7 +43,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface DisbandApi {
 
-    @Operation(summary = "Get disband by ID", operationId = "getById")
+    @Operation(summary = "Get disband by ID", operationId = "getDisbandById")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -65,17 +65,17 @@ public interface DisbandApi {
     public ResponseEntity<List<Disband>> getByUserId(
             @Parameter(description = "User ID", required = true) @PathVariable UUID userId);
 
-    @Operation(summary = "Get disbands by mac", operationId = "getDisbandsByMac")
+    @Operation(summary = "Get disbands by mac", operationId = "getDisbandByMac")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/macs/{mac}")
-    public ResponseEntity<List<Disband>> getByMac(
+    public ResponseEntity<Disband> getByMac(
             @Parameter(description = "Mac", required = true) @PathVariable String mac);
 
-    @Operation(summary = "Save disband", operationId = "savedisband")
+    @Operation(summary = "Save disband", operationId = "saveDisband")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "201", description = "CREATED"),
@@ -102,7 +102,7 @@ public interface DisbandApi {
             @Parameter(description = "Disband object", required = true) @RequestBody DisbandDTO disbandDTO)
             throws NotFoundException;
 
-    @Operation(summary = "Update user ID", operationId = "updateUserId")
+    @Operation(summary = "Update user ID", operationId = "updateDisbandUserId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

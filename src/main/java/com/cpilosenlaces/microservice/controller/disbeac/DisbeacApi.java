@@ -42,7 +42,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirements
 @SecurityRequirement(name = "bearer")
 public interface DisbeacApi {
-    @Operation(summary = "Get disbeac by ID", operationId = "getById")
+    @Operation(summary = "Get disbeac by ID", operationId = "getDisbeacById")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -65,17 +65,17 @@ public interface DisbeacApi {
             @Parameter(description = "User ID", required = true) @PathVariable UUID userId)
             throws NotFoundException;
 
-    @Operation(summary = "Get disbeac by mac", operationId = "getDisbeacsByMac")
+    @Operation(summary = "Get disbeac by mac", operationId = "getDisbeacByMac")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/macs/{mac}")
-    public ResponseEntity<List<Disbeac>> getByMac(
+    public ResponseEntity<Disbeac> getByMac(
             @Parameter(description = "Mac", required = true) @PathVariable String mac);
 
-    @Operation(summary = "Save disbeac", operationId = "savedisbeac")
+    @Operation(summary = "Save disbeac", operationId = "saveDisbeac")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "201", description = "CREATED"),
@@ -103,7 +103,7 @@ public interface DisbeacApi {
             @Parameter(description = "Disbeac object", required = true) @RequestBody DisbeacDTO user)
             throws NotFoundException;
 
-    @Operation(summary = "Update user ID", operationId = "updateUserId")
+    @Operation(summary = "Update user ID", operationId = "updateDisbeacUserId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

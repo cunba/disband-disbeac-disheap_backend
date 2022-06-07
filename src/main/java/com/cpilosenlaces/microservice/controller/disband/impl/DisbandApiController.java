@@ -46,8 +46,9 @@ public class DisbandApiController implements DisbandApi {
     }
 
     @Override
-    public ResponseEntity<List<Disband>> getByMac(String mac) {
-        return new ResponseEntity<>(ds.findByMac(mac), HttpStatus.OK);
+    public ResponseEntity<Disband> getByMac(String mac) {
+        List<Disband> disband = ds.findByMac(mac);
+        return new ResponseEntity<>(disband.get(0), HttpStatus.OK);
     }
 
     @Override

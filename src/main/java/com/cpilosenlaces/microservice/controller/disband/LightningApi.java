@@ -42,7 +42,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface LightningApi {
 
-	@Operation(summary = "Get last lightning by disband ID", operationId = "getLast1ByDateBetweenAndDisbandId")
+	@Operation(summary = "Get last lightning by disband ID", operationId = "getLast1LightningByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -54,7 +54,7 @@ public interface LightningApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@Operation(summary = "Get all lightnings", operationId = "getAllLightning")
+	@Operation(summary = "Get all lightnings", operationId = "getAllLightninga")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -63,7 +63,7 @@ public interface LightningApi {
 	@GetMapping
 	public ResponseEntity<List<Lightning>> getAll();
 
-	@Operation(summary = "Get lightnint by ID", operationId = "getById")
+	@Operation(summary = "Get lightnint by ID", operationId = "getLightningById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

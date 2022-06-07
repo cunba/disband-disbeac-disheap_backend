@@ -68,7 +68,7 @@ public interface HomeworkApi {
             @Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
             @Parameter(description = "User ID", required = true) @PathVariable UUID userId);
 
-    @Operation(summary = "Get homeworks by deadline between and subject ID and user ID", operationId = "HomeworksByDeadlineBetweenAndSubjectIdAndUserId")
+    @Operation(summary = "Get homeworks by deadline between and subject ID and user ID", operationId = "getHomeworksByDeadlineBetweenAndSubjectIdAndUserId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),

@@ -42,7 +42,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface HumidityApi {
 
-	@Operation(summary = "Get last humidity by disband ID", operationId = "getLast1ByDateBetweenAndDisbandId")
+	@Operation(summary = "Get last humidity by disband ID", operationId = "getLast1HumidityByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -54,7 +54,7 @@ public interface HumidityApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@Operation(summary = "Get all humidities", operationId = "getAllHumidity")
+	@Operation(summary = "Get all humidities", operationId = "getAllHumidities")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -63,7 +63,7 @@ public interface HumidityApi {
 	@GetMapping
 	public ResponseEntity<List<Humidity>> getAll();
 
-	@Operation(summary = "Get humidity by ID", operationId = "getById")
+	@Operation(summary = "Get humidity by ID", operationId = "getHumidityById")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -75,7 +75,7 @@ public interface HumidityApi {
 			@Parameter(description = "Humidity ID", required = true) @PathVariable UUID id)
 			throws NotFoundException;
 
-	@Operation(summary = "Get humidities by disband ID", operationId = "getHumiditysByDisbandId")
+	@Operation(summary = "Get humidities by disband ID", operationId = "getHumiditiesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -85,7 +85,7 @@ public interface HumidityApi {
 	public ResponseEntity<List<Humidity>> getByDisbandId(
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID userId);
 
-	@Operation(summary = "Get humidities by date between and disband ID", operationId = "getHumiditysByDateBetweenAndDisbandId")
+	@Operation(summary = "Get humidities by date between and disband ID", operationId = "getHumiditiesByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -97,7 +97,7 @@ public interface HumidityApi {
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);
 
-	@Operation(summary = "Get humidities by date between", operationId = "getHumiditysByDateBetween")
+	@Operation(summary = "Get humidities by date between", operationId = "getHumiditiesByDateBetween")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
@@ -121,7 +121,7 @@ public interface HumidityApi {
 			@Parameter(description = "Measure object", required = true) @RequestBody MeasureDTO measureDTO)
 			throws NotFoundException, BadRequestException;
 
-	@Operation(summary = "Delete humidities by disband ID", operationId = "deleteHumiditysByDisbandId")
+	@Operation(summary = "Delete humidities by disband ID", operationId = "deleteHumiditiesByDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
