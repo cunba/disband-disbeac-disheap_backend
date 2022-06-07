@@ -12,7 +12,7 @@ import com.cpilosenlaces.microservice.model.disbeac.Location;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, UUID> {
     @Query(value = "SELECT * FROM locations WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY date DESC LIMIT 1", nativeQuery = true)
-    Location findLast1ByDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
+    Location findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
 
     List<Location> findByDateBetweenAndDisbeacIdOrderByDateDesc(long minDate, long maxDate, UUID disbeacId);
 

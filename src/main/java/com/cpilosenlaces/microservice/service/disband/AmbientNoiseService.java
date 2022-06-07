@@ -7,7 +7,7 @@ import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.AmbientNoise;
 
 public interface AmbientNoiseService {
-    AmbientNoise findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId);
+    AmbientNoise findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<AmbientNoise> findByDisbandId(UUID disbandId);
 

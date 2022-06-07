@@ -19,8 +19,8 @@ public class HumidityServiceImpl implements HumidityService {
     private HumidityRepository hr;
 
     @Override
-    public Humidity findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
-        return hr.findLast1ByDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
+    public Humidity findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return hr.findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
     }
 
     @Override

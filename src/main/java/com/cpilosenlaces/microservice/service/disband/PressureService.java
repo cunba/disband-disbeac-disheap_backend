@@ -7,7 +7,7 @@ import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Pressure;
 
 public interface PressureService {
-    Pressure findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId);
+    Pressure findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Pressure> findByDisbandId(UUID disbandId);
 

@@ -34,8 +34,8 @@ public class HumidityApiController implements HumidityApi {
     private DisbandService ds;
 
     @Override
-    public ResponseEntity<Humidity> getLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
-        return new ResponseEntity<>(hs.findLast1ByDisbandId(minDate, maxDate, disbandId), HttpStatus.OK);
+    public ResponseEntity<Humidity> getLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return new ResponseEntity<>(hs.findLast1ByDateBetweenAndDisbandId(minDate, maxDate, disbandId), HttpStatus.OK);
     }
 
     @Override

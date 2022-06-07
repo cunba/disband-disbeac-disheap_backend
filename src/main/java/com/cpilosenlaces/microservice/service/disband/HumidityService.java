@@ -7,7 +7,7 @@ import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Humidity;
 
 public interface HumidityService {
-    Humidity findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId);
+    Humidity findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Humidity> findByDisbandId(UUID disbandId);
 

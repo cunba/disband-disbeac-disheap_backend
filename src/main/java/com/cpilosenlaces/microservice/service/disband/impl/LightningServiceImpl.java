@@ -19,8 +19,8 @@ public class LightningServiceImpl implements LightningService {
     private LightningRepository lr;
 
     @Override
-    public Lightning findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
-        return lr.findLast1ByDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
+    public Lightning findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return lr.findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
     }
 
     @Override

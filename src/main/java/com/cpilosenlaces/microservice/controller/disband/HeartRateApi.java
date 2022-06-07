@@ -42,14 +42,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearer")
 public interface HeartRateApi {
 
-	@Operation(summary = "Get last heart rate by disband ID", operationId = "getLast1ByDisbandId")
+	@Operation(summary = "Get last heart rate by disband ID", operationId = "getLast1ByDateBetweenAndDisbandId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@GetMapping("/last/disbandId/{disbandId}")
-	ResponseEntity<HeartRate> getLast1ByDisbandId(
+	ResponseEntity<HeartRate> getLast1ByDateBetweenAndDisbandId(
 			@Parameter(description = "Min date", required = true) @RequestParam(value = "min date") long minDate,
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);

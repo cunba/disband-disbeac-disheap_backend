@@ -7,7 +7,7 @@ import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Oxygen;
 
 public interface OxygenService {
-    Oxygen findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId);
+    Oxygen findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Oxygen> findByDisbandId(UUID disbandId);
 

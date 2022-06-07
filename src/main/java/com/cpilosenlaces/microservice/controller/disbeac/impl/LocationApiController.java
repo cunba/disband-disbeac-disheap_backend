@@ -35,8 +35,8 @@ public class LocationApiController implements LocationApi {
     private DisbeacService ds;
 
     @Override
-    public ResponseEntity<Location> getLast1ByDisbeacId(long minDate, long maxDate, UUID disbeacId) {
-        return new ResponseEntity<>(lds.findLast1ByDisbeacId(minDate, maxDate, disbeacId), HttpStatus.OK);
+    public ResponseEntity<Location> getLast1ByDateBetweenAndDisbeacId(long minDate, long maxDate, UUID disbeacId) {
+        return new ResponseEntity<>(lds.findLast1ByDateBetweenAndDisbeacId(minDate, maxDate, disbeacId), HttpStatus.OK);
     }
 
     @Override

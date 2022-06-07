@@ -7,7 +7,7 @@ import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Temperature;
 
 public interface TemperatureService {
-    Temperature findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId);
+    Temperature findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Temperature> findByDisbandId(UUID disbandId);
 

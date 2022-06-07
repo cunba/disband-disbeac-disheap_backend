@@ -19,8 +19,8 @@ public class AmbientNoiseServiceImpl implements AmbientNoiseService {
     private AmbientNoiseRepository anr;
 
     @Override
-    public AmbientNoise findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
-        return anr.findLast1ByDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
+    public AmbientNoise findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return anr.findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
     }
 
     @Override

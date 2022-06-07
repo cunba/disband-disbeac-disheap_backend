@@ -12,7 +12,7 @@ import com.cpilosenlaces.microservice.model.disband.Lightning;
 @Repository
 public interface LightningRepository extends JpaRepository<Lightning, UUID> {
     @Query(value = "SELECT * FROM lightnings WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY date DESC LIMIT 1", nativeQuery = true)
-    Lightning findLast1ByDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
+    Lightning findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
 
     List<Lightning> findByDisbandIdOrderByDateDesc(UUID disbandId);
 

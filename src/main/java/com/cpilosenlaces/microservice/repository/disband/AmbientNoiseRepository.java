@@ -12,7 +12,7 @@ import com.cpilosenlaces.microservice.model.disband.AmbientNoise;
 @Repository
 public interface AmbientNoiseRepository extends JpaRepository<AmbientNoise, UUID> {
     @Query(value = "SELECT * FROM ambient_noises WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY date DESC LIMIT 1", nativeQuery = true)
-    AmbientNoise findLast1ByDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
+    AmbientNoise findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
 
     List<AmbientNoise> findByDisbandIdOrderByDateDesc(UUID disbandId);
 

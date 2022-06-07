@@ -19,8 +19,8 @@ public class LocationServiceImpl implements LocationService {
     private LocationRepository ldr;
 
     @Override
-    public Location findLast1ByDisbeacId(long minDate, long maxDate, UUID disbeacId) {
-        return ldr.findLast1ByDisbandIdOrderByDateDesc(minDate, maxDate, disbeacId);
+    public Location findLast1ByDateBetweenAndDisbeacId(long minDate, long maxDate, UUID disbeacId) {
+        return ldr.findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(minDate, maxDate, disbeacId);
     }
 
     @Override

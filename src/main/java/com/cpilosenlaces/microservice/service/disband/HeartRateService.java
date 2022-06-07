@@ -7,7 +7,7 @@ import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.HeartRate;
 
 public interface HeartRateService {
-    HeartRate findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId);
+    HeartRate findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<HeartRate> findByDisbandId(UUID disbandId);
 

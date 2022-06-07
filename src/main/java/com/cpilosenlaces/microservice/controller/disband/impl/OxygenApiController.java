@@ -34,8 +34,8 @@ public class OxygenApiController implements OxygenApi {
     private DisbandService ds;
 
     @Override
-    public ResponseEntity<Oxygen> getLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
-        return new ResponseEntity<>(os.findLast1ByDisbandId(minDate, maxDate, disbandId), HttpStatus.OK);
+    public ResponseEntity<Oxygen> getLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return new ResponseEntity<>(os.findLast1ByDateBetweenAndDisbandId(minDate, maxDate, disbandId), HttpStatus.OK);
     }
 
     @Override

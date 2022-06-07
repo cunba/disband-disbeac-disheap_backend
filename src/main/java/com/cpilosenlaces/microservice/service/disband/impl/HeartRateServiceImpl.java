@@ -19,8 +19,8 @@ public class HeartRateServiceImpl implements HeartRateService {
     private HeartRateRepository hr;
 
     @Override
-    public HeartRate findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
-        return hr.findLast1ByDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
+    public HeartRate findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return hr.findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
     }
 
     @Override

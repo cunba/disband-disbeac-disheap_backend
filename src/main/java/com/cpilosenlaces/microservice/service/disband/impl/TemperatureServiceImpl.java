@@ -19,8 +19,8 @@ public class TemperatureServiceImpl implements TemperatureService {
     private TemperatureRepository tr;
 
     @Override
-    public Temperature findLast1ByDisbandId(long minDate, long maxDate, UUID disbandId) {
-        return tr.findLast1ByDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
+    public Temperature findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return tr.findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(minDate, maxDate, disbandId);
     }
 
     @Override
