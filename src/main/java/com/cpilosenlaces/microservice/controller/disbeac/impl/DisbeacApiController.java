@@ -56,10 +56,10 @@ public class DisbeacApiController implements DisbeacApi {
         
         if (disbeacs.size() > 0) {
             Disbeac disbeac = disbeacs.get(0);
-            if (disbeac.getUser_id() == disbeacDTO.getUserId()) {
+            if (disbeac.getUserId() == disbeacDTO.getUserId()) {
                 return new ResponseEntity<>(disbeac, HttpStatus.OK);
             } else {
-                disbeac.setUser_id(disbeacDTO.getUserId());
+                disbeac.setUserId(disbeacDTO.getUserId());
                 ds.updateUserId(disbeacDTO.getUserId(), disbeac.getId());
 
                 return new ResponseEntity<>(disbeac, HttpStatus.OK);

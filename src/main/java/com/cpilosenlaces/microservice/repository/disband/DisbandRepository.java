@@ -13,7 +13,7 @@ import com.cpilosenlaces.microservice.model.disband.Disband;
 
 @Repository
 public interface DisbandRepository extends JpaRepository<Disband, UUID> {
-    List<Disband> findByUser_id(UUID userId);
+    List<Disband> findByUserId(UUID userId);
 
     List<Disband> findByMac(String mac);
 

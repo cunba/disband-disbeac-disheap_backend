@@ -32,6 +32,6 @@ public class Disband {
     private String version;
     @Column
     private long date;
-    @Column
-    private UUID user_id;
+    @Column(name = "user_id")
+    private UUID userId;
 }

@@ -57,10 +57,10 @@ public class DisbandApiController implements DisbandApi {
         
         if (disbands.size() > 0) {
             Disband disband = disbands.get(0);
-            if (disband.getUser_id() == disbandDTO.getUserId()) {
+            if (disband.getUserId() == disbandDTO.getUserId()) {
                 return new ResponseEntity<>(disband, HttpStatus.OK);
             } else {
-                disband.setUser_id(disbandDTO.getUserId());
+                disband.setUserId(disbandDTO.getUserId());
                 ds.updateUserId(disbandDTO.getUserId(), disband.getId());
 
                 return new ResponseEntity<>(disband, HttpStatus.OK);
