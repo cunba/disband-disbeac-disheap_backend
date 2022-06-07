@@ -13,7 +13,7 @@ import com.cpilosenlaces.microservice.model.disbeac.Disbeac;
 
 @Repository
 public interface DisbeacRepository extends JpaRepository<Disbeac, UUID> {
-    List<Disbeac> findByUserId(UUID userId);
+    List<Disbeac> findByUser_id(UUID userId);
 
     List<Disbeac> findByMac(String mac);
 
