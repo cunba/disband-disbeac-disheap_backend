@@ -147,7 +147,7 @@ public class UserApiController implements UserApi {
     public ResponseEntity<UserModel> delete(UUID id) throws NotFoundException {
         try {
             UserModel user = us.findById(id);
-            us.deleteUser(user);
+            us.delete(user);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (NotFoundException nfe) {
             throw new NotFoundException("User with ID " + id + " does not exists.");

@@ -19,5 +19,5 @@ public interface UserService {
 
     void updateEmail(UUID id, String email);
 
-    void deleteUser(UserModel user);
+    void delete(UserModel user);
 }
