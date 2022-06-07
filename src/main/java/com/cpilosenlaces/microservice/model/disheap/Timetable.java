@@ -17,6 +17,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -49,8 +50,8 @@ public class Timetable {
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "user-timetable")
     private UserModel user;
 }

@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,5 +41,6 @@ public class Lightning {
 
     @ManyToOne
     @JoinColumn(name = "disband_id")
+    @JsonBackReference(value = "disband-lightning")
     private Disband disband;
 }
