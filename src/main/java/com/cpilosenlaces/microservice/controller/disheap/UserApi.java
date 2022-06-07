@@ -1,6 +1,5 @@
 package com.cpilosenlaces.microservice.controller.disheap;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.mapstruct.BeanMapping;
@@ -72,7 +71,7 @@ public interface UserApi {
     @GetMapping("/emails/{email}")
     @SecurityRequirements
     @SecurityRequirement(name = "bearer")
-    public ResponseEntity<List<UserModel>> getByEmail(
+    public ResponseEntity<UserModel> getByEmail(
             @Parameter(description = "User email", required = true) @PathVariable("email") String email);
 
     @Operation(summary = "Save user", operationId = "saveUser")

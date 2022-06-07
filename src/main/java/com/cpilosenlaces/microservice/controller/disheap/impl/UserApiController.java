@@ -48,9 +48,11 @@ public class UserApiController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<List<UserModel>> getByEmail(String email) {
-        System.out.println("este es el email " + email);
-        return new ResponseEntity<>(us.findByEmail(email), HttpStatus.OK);
+    public ResponseEntity<UserModel> getByEmail(String email) {
+        List<UserModel> user = us.findByEmail(email);
+        System.out.println(user);
+        System.out.println(user.get(0));
+        return new ResponseEntity<>(user.get(0), HttpStatus.OK);
     }
 
     @Override
