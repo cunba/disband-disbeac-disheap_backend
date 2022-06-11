@@ -21,6 +21,7 @@ import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.AmbientNoise;
 import com.cpilosenlaces.microservice.model.disband.Disband;
+import com.cpilosenlaces.microservice.model.disband.MeasureResponse;
 import com.cpilosenlaces.microservice.model.disband.dto.MeasureDTO;
 import com.cpilosenlaces.microservice.service.disband.AmbientNoiseService;
 import com.cpilosenlaces.microservice.service.disband.DisbandService;
@@ -58,7 +59,7 @@ public class AmbientNoiseApiController implements AmbientNoiseApi {
     }
 
     @Override
-    public ResponseEntity<List<AmbientNoise>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
+    public ResponseEntity<MeasureResponse<AmbientNoise>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
             UUID disbandId) {
 
         long changerDate = System.currentTimeMillis();
@@ -68,7 +69,11 @@ public class AmbientNoiseApiController implements AmbientNoiseApi {
             maxDate = changerDate;
         }
 
-        return new ResponseEntity<>(ans.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
+        List<AmbientNoise> list = ans.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        AmbientNoise minMeasure = ans.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        AmbientNoise maxMeasure = ans.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+
+        return new ResponseEntity<>(new MeasureResponse<AmbientNoise>(list, minMeasure.getData(), maxMeasure.getData()),
                 HttpStatus.OK);
     }
 

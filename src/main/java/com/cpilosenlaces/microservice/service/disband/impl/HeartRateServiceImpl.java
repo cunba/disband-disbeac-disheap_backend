@@ -24,6 +24,16 @@ public class HeartRateServiceImpl implements HeartRateService {
     }
 
     @Override
+    public HeartRate findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return hr.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
+    public HeartRate findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return hr.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
     public List<HeartRate> findByDisbandId(UUID disbandId) {
         return hr.findByDisbandIdOrderByDateDesc(disbandId);
     }

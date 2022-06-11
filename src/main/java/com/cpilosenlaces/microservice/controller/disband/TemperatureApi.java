@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cpilosenlaces.microservice.exception.BadRequestException;
 import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
+import com.cpilosenlaces.microservice.model.disband.MeasureResponse;
 import com.cpilosenlaces.microservice.model.disband.Temperature;
 import com.cpilosenlaces.microservice.model.disband.dto.MeasureDTO;
 
@@ -92,7 +93,7 @@ public interface TemperatureApi {
 			@ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@GetMapping("/date/between/disband/{disbandId}")
-	public ResponseEntity<List<Temperature>> getByDateBetweenAndDisbandId(
+	public ResponseEntity<MeasureResponse<Temperature>> getByDateBetweenAndDisbandId(
 			@Parameter(description = "Min date", required = true) @RequestParam(value = "min date") long minDate,
 			@Parameter(description = "Max date", required = true) @RequestParam(value = "max date") long maxDate,
 			@Parameter(description = "Disband ID", required = true) @PathVariable UUID disbandId);

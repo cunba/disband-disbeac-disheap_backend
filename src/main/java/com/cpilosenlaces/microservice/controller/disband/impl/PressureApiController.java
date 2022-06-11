@@ -20,6 +20,7 @@ import com.cpilosenlaces.microservice.exception.BadRequestException;
 import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Disband;
+import com.cpilosenlaces.microservice.model.disband.MeasureResponse;
 import com.cpilosenlaces.microservice.model.disband.Pressure;
 import com.cpilosenlaces.microservice.model.disband.dto.MeasureDTO;
 import com.cpilosenlaces.microservice.service.disband.DisbandService;
@@ -58,7 +59,7 @@ public class PressureApiController implements PressureApi {
     }
 
     @Override
-    public ResponseEntity<List<Pressure>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
+    public ResponseEntity<MeasureResponse<Pressure>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
             UUID disbandId) {
 
         long changerDate = System.currentTimeMillis();
@@ -68,7 +69,11 @@ public class PressureApiController implements PressureApi {
             maxDate = changerDate;
         }
 
-        return new ResponseEntity<>(ps.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
+        List<Pressure> list = ps.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        Pressure minMeasure = ps.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        Pressure maxMeasure = ps.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+
+        return new ResponseEntity<>(new MeasureResponse<Pressure>(list, minMeasure.getData(), maxMeasure.getData()),
                 HttpStatus.OK);
     }
 

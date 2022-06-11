@@ -21,6 +21,7 @@ import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Disband;
 import com.cpilosenlaces.microservice.model.disband.HeartRate;
+import com.cpilosenlaces.microservice.model.disband.MeasureResponse;
 import com.cpilosenlaces.microservice.model.disband.dto.MeasureDTO;
 import com.cpilosenlaces.microservice.service.disband.DisbandService;
 import com.cpilosenlaces.microservice.service.disband.HeartRateService;
@@ -58,7 +59,7 @@ public class HeartRateApiController implements HeartRateApi {
     }
 
     @Override
-    public ResponseEntity<List<HeartRate>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
+    public ResponseEntity<MeasureResponse<HeartRate>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
             UUID disbandId) {
 
         long changerDate = System.currentTimeMillis();
@@ -68,7 +69,11 @@ public class HeartRateApiController implements HeartRateApi {
             maxDate = changerDate;
         }
 
-        return new ResponseEntity<>(hrs.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
+        List<HeartRate> list = hrs.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        HeartRate minMeasure = hrs.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        HeartRate maxMeasure = hrs.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+
+        return new ResponseEntity<>(new MeasureResponse<HeartRate>(list, minMeasure.getData(), maxMeasure.getData()),
                 HttpStatus.OK);
     }
 

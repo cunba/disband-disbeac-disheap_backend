@@ -20,6 +20,7 @@ import com.cpilosenlaces.microservice.exception.BadRequestException;
 import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Disband;
+import com.cpilosenlaces.microservice.model.disband.MeasureResponse;
 import com.cpilosenlaces.microservice.model.disband.Temperature;
 import com.cpilosenlaces.microservice.model.disband.dto.MeasureDTO;
 import com.cpilosenlaces.microservice.service.disband.DisbandService;
@@ -58,7 +59,7 @@ public class TemperatureApiController implements TemperatureApi {
     }
 
     @Override
-    public ResponseEntity<List<Temperature>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
+    public ResponseEntity<MeasureResponse<Temperature>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
             UUID disbandId) {
 
         long changerDate = System.currentTimeMillis();
@@ -68,7 +69,11 @@ public class TemperatureApiController implements TemperatureApi {
             maxDate = changerDate;
         }
 
-        return new ResponseEntity<>(ts.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
+        List<Temperature> list = ts.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        Temperature minMeasure = ts.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        Temperature maxMeasure = ts.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+
+        return new ResponseEntity<>(new MeasureResponse<Temperature>(list, minMeasure.getData(), maxMeasure.getData()),
                 HttpStatus.OK);
     }
 

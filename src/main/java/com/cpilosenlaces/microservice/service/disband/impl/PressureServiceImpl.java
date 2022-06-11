@@ -24,6 +24,16 @@ public class PressureServiceImpl implements PressureService {
     }
 
     @Override
+    public Pressure findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return pr.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
+    public Pressure findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return pr.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
     public List<Pressure> findByDisbandId(UUID disbandId) {
         return pr.findByDisbandIdOrderByDateDesc(disbandId);
     }

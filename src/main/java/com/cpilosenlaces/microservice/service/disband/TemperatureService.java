@@ -8,6 +8,10 @@ import com.cpilosenlaces.microservice.model.disband.Temperature;
 
 public interface TemperatureService {
     Temperature findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    Temperature findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    Temperature findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Temperature> findByDisbandId(UUID disbandId);
 

@@ -24,6 +24,16 @@ public class TemperatureServiceImpl implements TemperatureService {
     }
 
     @Override
+    public Temperature findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return tr.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
+    public Temperature findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return tr.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
     public List<Temperature> findByDisbandId(UUID disbandId) {
         return tr.findByDisbandIdOrderByDateDesc(disbandId);
     }

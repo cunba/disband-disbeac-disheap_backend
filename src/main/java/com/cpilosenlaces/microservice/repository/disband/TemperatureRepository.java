@@ -13,6 +13,12 @@ import com.cpilosenlaces.microservice.model.disband.Temperature;
 public interface TemperatureRepository extends JpaRepository<Temperature, UUID> {
     @Query(value = "SELECT * FROM temperatures WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY date DESC LIMIT 1", nativeQuery = true)
     Temperature findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
+    
+    @Query(value = "SELECT * FROM temperatures WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY data DESC LIMIT 1", nativeQuery = true)
+    Temperature findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    @Query(value = "SELECT * FROM temperatures WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY data ASC LIMIT 1", nativeQuery = true)
+    Temperature findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Temperature> findByDisbandIdOrderByDateDesc(UUID disbandId);
 

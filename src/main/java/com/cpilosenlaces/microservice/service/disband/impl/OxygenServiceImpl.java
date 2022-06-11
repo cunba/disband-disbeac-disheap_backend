@@ -24,6 +24,16 @@ public class OxygenServiceImpl implements OxygenService {
     }
 
     @Override
+    public Oxygen findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return or.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
+    public Oxygen findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return or.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
     public List<Oxygen> findByDisbandId(UUID disbandId) {
         return or.findByDisbandIdOrderByDateDesc(disbandId);
     }

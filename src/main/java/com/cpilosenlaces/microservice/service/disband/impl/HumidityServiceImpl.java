@@ -24,6 +24,16 @@ public class HumidityServiceImpl implements HumidityService {
     }
 
     @Override
+    public Humidity findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return hr.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
+    public Humidity findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return hr.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
     public List<Humidity> findByDisbandId(UUID disbandId) {
         return hr.findByDisbandIdOrderByDateDesc(disbandId);
     }

@@ -13,6 +13,12 @@ import com.cpilosenlaces.microservice.model.disband.Oxygen;
 public interface OxygenRepository extends JpaRepository<Oxygen, UUID> {
     @Query(value = "SELECT * FROM oxygens WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY date DESC LIMIT 1", nativeQuery = true)
     Oxygen findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
+    
+    @Query(value = "SELECT * FROM oxygens WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY data DESC LIMIT 1", nativeQuery = true)
+    Oxygen findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    @Query(value = "SELECT * FROM oxygens WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY data ASC LIMIT 1", nativeQuery = true)
+    Oxygen findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Oxygen> findByDisbandIdOrderByDateDesc(UUID disbandId);
 

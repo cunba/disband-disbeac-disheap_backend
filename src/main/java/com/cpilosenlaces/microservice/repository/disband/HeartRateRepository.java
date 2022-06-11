@@ -13,6 +13,12 @@ import com.cpilosenlaces.microservice.model.disband.HeartRate;
 public interface HeartRateRepository extends JpaRepository<HeartRate, UUID> {
     @Query(value = "SELECT * FROM heart_rates WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY date DESC LIMIT 1", nativeQuery = true)
     HeartRate findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
+    
+    @Query(value = "SELECT * FROM heart_rates WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY data DESC LIMIT 1", nativeQuery = true)
+    HeartRate findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    @Query(value = "SELECT * FROM heart_rates WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY data ASC LIMIT 1", nativeQuery = true)
+    HeartRate findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<HeartRate> findByDisbandIdOrderByDateDesc(UUID disbandId);
 

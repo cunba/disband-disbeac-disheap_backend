@@ -8,6 +8,10 @@ import com.cpilosenlaces.microservice.model.disband.Humidity;
 
 public interface HumidityService {
     Humidity findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    Humidity findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    Humidity findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Humidity> findByDisbandId(UUID disbandId);
 

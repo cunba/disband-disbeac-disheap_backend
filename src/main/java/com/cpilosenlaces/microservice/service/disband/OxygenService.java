@@ -8,6 +8,10 @@ import com.cpilosenlaces.microservice.model.disband.Oxygen;
 
 public interface OxygenService {
     Oxygen findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    Oxygen findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    Oxygen findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Oxygen> findByDisbandId(UUID disbandId);
 

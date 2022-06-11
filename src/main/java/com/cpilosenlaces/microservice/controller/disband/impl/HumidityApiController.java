@@ -21,6 +21,7 @@ import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Disband;
 import com.cpilosenlaces.microservice.model.disband.Humidity;
+import com.cpilosenlaces.microservice.model.disband.MeasureResponse;
 import com.cpilosenlaces.microservice.model.disband.dto.MeasureDTO;
 import com.cpilosenlaces.microservice.service.disband.DisbandService;
 import com.cpilosenlaces.microservice.service.disband.HumidityService;
@@ -58,7 +59,7 @@ public class HumidityApiController implements HumidityApi {
     }
 
     @Override
-    public ResponseEntity<List<Humidity>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
+    public ResponseEntity<MeasureResponse<Humidity>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
             UUID disbandId) {
 
         long changerDate = System.currentTimeMillis();
@@ -68,7 +69,11 @@ public class HumidityApiController implements HumidityApi {
             maxDate = changerDate;
         }
 
-        return new ResponseEntity<>(hs.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
+        List<Humidity> list = hs.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        Humidity minMeasure = hs.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        Humidity maxMeasure = hs.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+
+        return new ResponseEntity<>(new MeasureResponse<Humidity>(list, minMeasure.getData(), maxMeasure.getData()),
                 HttpStatus.OK);
     }
 

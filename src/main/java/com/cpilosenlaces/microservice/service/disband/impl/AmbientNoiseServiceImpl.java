@@ -24,6 +24,16 @@ public class AmbientNoiseServiceImpl implements AmbientNoiseService {
     }
 
     @Override
+    public AmbientNoise findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return anr.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
+    public AmbientNoise findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId) {
+        return anr.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+    }
+
+    @Override
     public List<AmbientNoise> findByDisbandId(UUID disbandId) {
         return anr.findByDisbandIdOrderByDateDesc(disbandId);
     }

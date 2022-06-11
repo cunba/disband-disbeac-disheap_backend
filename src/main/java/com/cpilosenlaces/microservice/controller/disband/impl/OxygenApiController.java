@@ -20,6 +20,7 @@ import com.cpilosenlaces.microservice.exception.BadRequestException;
 import com.cpilosenlaces.microservice.exception.ErrorResponse;
 import com.cpilosenlaces.microservice.exception.NotFoundException;
 import com.cpilosenlaces.microservice.model.disband.Disband;
+import com.cpilosenlaces.microservice.model.disband.MeasureResponse;
 import com.cpilosenlaces.microservice.model.disband.Oxygen;
 import com.cpilosenlaces.microservice.model.disband.dto.MeasureDTO;
 import com.cpilosenlaces.microservice.service.disband.DisbandService;
@@ -58,7 +59,7 @@ public class OxygenApiController implements OxygenApi {
     }
 
     @Override
-    public ResponseEntity<List<Oxygen>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
+    public ResponseEntity<MeasureResponse<Oxygen>> getByDateBetweenAndDisbandId(long minDate, long maxDate,
             UUID disbandId) {
 
         long changerDate = System.currentTimeMillis();
@@ -68,7 +69,11 @@ public class OxygenApiController implements OxygenApi {
             maxDate = changerDate;
         }
 
-        return new ResponseEntity<>(os.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId),
+        List<Oxygen> list = os.findByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        Oxygen minMeasure = os.findMinValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+        Oxygen maxMeasure = os.findMaxValueByDateBetweenAndDisbandId(minDate, maxDate, disbandId);
+
+        return new ResponseEntity<>(new MeasureResponse<Oxygen>(list, minMeasure.getData(), maxMeasure.getData()),
                 HttpStatus.OK);
     }
 

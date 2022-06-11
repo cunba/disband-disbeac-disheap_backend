@@ -13,6 +13,12 @@ import com.cpilosenlaces.microservice.model.disband.Humidity;
 public interface HumidityRepository extends JpaRepository<Humidity, UUID> {
     @Query(value = "SELECT * FROM humidities WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY date DESC LIMIT 1", nativeQuery = true)
     Humidity findLast1ByDateBetweenAndDisbandIdOrderByDateDesc(long minDate, long maxDate, UUID disbandId);
+    
+    @Query(value = "SELECT * FROM humidities WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY data DESC LIMIT 1", nativeQuery = true)
+    Humidity findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    @Query(value = "SELECT * FROM humidities WHERE disband_id = :disbandId AND date BETWEEN :minDate AND :maxDate ORDER BY data ASC LIMIT 1", nativeQuery = true)
+    Humidity findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Humidity> findByDisbandIdOrderByDateDesc(UUID disbandId);
 

@@ -8,6 +8,10 @@ import com.cpilosenlaces.microservice.model.disband.Pressure;
 
 public interface PressureService {
     Pressure findLast1ByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    Pressure findMaxValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
+    
+    Pressure findMinValueByDateBetweenAndDisbandId(long minDate, long maxDate, UUID disbandId);
 
     List<Pressure> findByDisbandId(UUID disbandId);
 
