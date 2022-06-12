@@ -39,8 +39,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = "/disorders", produces = { MediaType.APPLICATION_JSON_VALUE })
 @SecurityScheme(name = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
-@SecurityRequirements
-@SecurityRequirement(name = "bearer")
 public interface DisorderApi {
 
     @Operation(summary = "Get disorder by ID", operationId = "getDisorderById")
@@ -51,6 +49,8 @@ public interface DisorderApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/{id}")
+    @SecurityRequirements
+    @SecurityRequirement(name = "bearer")
     public ResponseEntity<Disorder> getById(
             @Parameter(description = "Disorder ID", required = true) @PathVariable("id") UUID id)
             throws NotFoundException;
@@ -62,6 +62,8 @@ public interface DisorderApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping
+    @SecurityRequirements
+    @SecurityRequirement(name = "bearer")
     public ResponseEntity<List<Disorder>> getAll();
 
     @Secured({ "ROLE_ADMIN" })
