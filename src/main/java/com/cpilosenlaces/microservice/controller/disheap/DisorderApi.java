@@ -49,8 +49,6 @@ public interface DisorderApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/{id}")
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
     public ResponseEntity<Disorder> getById(
             @Parameter(description = "Disorder ID", required = true) @PathVariable("id") UUID id)
             throws NotFoundException;
@@ -62,8 +60,6 @@ public interface DisorderApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping
-    @SecurityRequirements
-    @SecurityRequirement(name = "bearer")
     public ResponseEntity<List<Disorder>> getAll();
 
     @Secured({ "ROLE_ADMIN" })
@@ -75,6 +71,8 @@ public interface DisorderApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping
+    @SecurityRequirements
+    @SecurityRequirement(name = "bearer")
     public ResponseEntity<Disorder> save(
             @Parameter(description = "Disorder object", required = true) @RequestBody DisorderDTO disorderDTO)
             throws NotFoundException;
@@ -89,6 +87,8 @@ public interface DisorderApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PutMapping("/{id}")
+    @SecurityRequirements
+    @SecurityRequirement(name = "bearer")
     public ResponseEntity<HandledResponse> update(
             @Parameter(description = "Disorder id", required = true) @PathVariable UUID id,
             @Parameter(description = "Disorder object", required = true) @RequestBody DisorderDTO disorderDTO)
@@ -103,6 +103,8 @@ public interface DisorderApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @DeleteMapping("/{id}")
+    @SecurityRequirements
+    @SecurityRequirement(name = "bearer")
     public ResponseEntity<Disorder> delete(
             @Parameter(description = "Disorder ID", required = true) @PathVariable UUID id)
             throws NotFoundException;
@@ -115,6 +117,8 @@ public interface DisorderApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @DeleteMapping
+    @SecurityRequirements
+    @SecurityRequirement(name = "bearer")
     public ResponseEntity<List<Disorder>> deleteAll();
 
 }
