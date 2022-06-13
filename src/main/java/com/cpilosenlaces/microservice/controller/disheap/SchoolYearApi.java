@@ -49,6 +49,8 @@ public interface SchoolYearApi {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/{id}")
+    @SecurityRequirements
+    @SecurityRequirement(name = "bearer")
     public ResponseEntity<SchoolYear> getById(
             @Parameter(description = "School year ID", required = true) @PathVariable("id") UUID id)
             throws NotFoundException;
