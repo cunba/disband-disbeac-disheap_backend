@@ -34,7 +34,7 @@ public class Event {
     @Column
     private String name;
     @Column
-    private String note;
+    private String notes;
     @Column(name = "start_date")
     private long startDate;
     @Column(name = "end_date")

@@ -99,7 +99,7 @@ public class EventApiController implements EventApi {
 
         event.setEndDate(eventDTO.getEndDate());
         event.setName(eventDTO.getName());
-        event.setNote(eventDTO.getNotes());
+        event.setNotes(eventDTO.getNotes());
         event.setStartDate(eventDTO.getStartDate());
         event.setType(eventDTO.getType());
 
