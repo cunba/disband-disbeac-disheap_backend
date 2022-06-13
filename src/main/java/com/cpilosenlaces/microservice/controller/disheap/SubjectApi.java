@@ -55,7 +55,7 @@ public interface SubjectApi {
             @Parameter(description = "Subject ID", required = true) @PathVariable("id") UUID id)
             throws NotFoundException;
 
-    @Operation(summary = "Get subjects by school year ID", operationId = "getSubjctesBySchoolYearId")
+    @Operation(summary = "Get subjects by school year ID", operationId = "getSubjectsBySchoolYearId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
