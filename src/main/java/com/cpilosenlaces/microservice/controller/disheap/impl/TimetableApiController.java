@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import javax.validation.ConstraintViolationException;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,8 +72,12 @@ public class TimetableApiController implements TimetableApi {
             throw new NotFoundException("Subject with ID " + timetableDTO.getSubjectId() + " does not exists.");
         }
 
-        ModelMapper mapper = new ModelMapper();
-        Timetable timetable = mapper.map(timetableDTO, Timetable.class);
+        // ModelMapper mapper = new ModelMapper();
+        // Timetable timetable = mapper.map(timetableDTO, Timetable.class);
+        Timetable timetable = new Timetable();
+        timetable.setStartTime(timetableDTO.getStartTime());
+        timetable.setEndTime(timetableDTO.getEndTime());
+        timetable.setWeekDay(timetableDTO.getWeekDay());
         timetable.setId(UUID.randomUUID());
         timetable.setUser(user);
         timetable.setSubject(subject);
